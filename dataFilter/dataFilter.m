@@ -3,10 +3,12 @@ close all
 clc
 %% load virtual numerical data and filter
 dispFCurve = readmatrix('dataOutput_74.csv');
-windowSize = 19; 
-b = (1/windowSize)*ones(1,windowSize);
-a = 1;
-dispFFil = filter(b,a,dispFCurve(:,2));
+x1 = 5;
+x2 = 40;
+options = optimset('TolX',0.1);
+func = @(k) funDataFilterObj(k,dispFCurve);
+[windowSize,~] = fminbnd(func,x1,x2,options);
+[dispFFil] = funDataFilter(floor(windowSize),dispFCurve);
 figure(1);
 plot(dispFCurve(:,1),dispFCurve(:,2));
 hold on
@@ -31,7 +33,7 @@ hold off
 fun = @(x)(sum((dataPointExpForce(floor(x):end)-dataPointNumForce(1:dataNum-floor(x)+1)).^2))^0.5/numDispMax;
 x1 = 5;
 x2 = 50;
-options = optimset('Display','iter','PlotFcns',@optimplotfval,'TolX',0.5);
+options = optimset('TolX',0.5);
 [x,fval] = fminbnd(fun,x1,x2,options);
 %%
 figure(3);
@@ -41,3 +43,17 @@ plot(dataPointDisp, dataPointNumForce);
 hold off
 %% calculate the mean squate error
 expNumDiff = (sum((dataPointExpForce-dataPointNumForce).^2))^0.5/numDispMax;
+%% numerical data filter
+function [dispFFil] = funDataFilter(windowSize,dispFCurve)
+b = (1/windowSize)*ones(1,windowSize);
+a = 1;
+dispFFil = filter(b,a,dispFCurve(:,2));
+end
+%% data filter objective
+function [obj] = funDataFilterObj(windowSize,dispFCurve)
+windowSize = floor(windowSize);
+b = (1/windowSize)*ones(1,windowSize);
+a = 1;
+dispFFil = filter(b,a,dispFCurve(:,2));
+obj = sum(abs(dispFFil));
+end
