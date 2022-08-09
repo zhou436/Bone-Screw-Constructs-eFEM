@@ -1,3 +1,6 @@
+# micro-CT images
+*.bmp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
