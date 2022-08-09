@@ -1,6 +1,10 @@
 # micro-CT images
 *.bmp
 
+# Abaqus input files
+*.bdf
+*.inp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
