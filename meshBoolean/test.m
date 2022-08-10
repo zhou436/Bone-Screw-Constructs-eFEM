@@ -37,9 +37,6 @@ for ii=1: 1: hexNodeZoneNum
         hexNodeInZone = [hexNodeInZone;hexNodeZone(ii,:)];
     end
 end
-% scatter3(hexNodeBTZone(:,2),hexNodeBTZone(:,3),hexNodeBTZone(:,4));
-% hold on
-% scatter3(hexNodeInZone(:,2),hexNodeInZone(:,3),hexNodeInZone(:,4));
 hexNodeBTZoneNum = size(hexNodeBTZone,1);
 hexNodeInZoneNum = size(hexNodeInZone,1);
 ele2Del = [];
@@ -48,16 +45,33 @@ for ii=1: 1: hexNodeInZoneNum
     ele2Del = [ele2Del;row];
 end
 ele2Del = unique(ele2Del);
+% check the hex elements between inner and outer diameter
+hexEleBTZone = [];
+for ii=1: 1: hexNodeBTZoneNum
+    [row,~] = find(data.Elements{1,1}==hexNodeBTZone(ii,1));
+    hexEleBTZone = [hexEleBTZone;row];
+end
+hexEleBTZone = unique(hexEleBTZone);
+% Delete the inner zone hex elements from the between zone elements
+hexEleBTInZone = [];
+for ii=1: 1: size(ele2Del,1)
+    [row,~] = find(hexEleBTZone==ele2Del(ii));
+    hexEleBTInZone = [hexEleBTInZone;row];
+end
+hexEleBTInZone = unique(hexEleBTInZone);
+hexEleBTZone(hexEleBTInZone,:) = [];
+% hexEleBTZone = ;
+plotMesh(data.Elements{1,1}(hexEleBTZone,:), data.Nodes{1,1});
 %% Select the Tet elements contribute to region outer Innerdiameter
 tetNodeNum = size(data.Nodes{1,2},1);
-tetNodeZone = [];
+tetNodeZone = []; % the tet element nodes of screw outer innerdiamter
 for ii=1: 1: tetNodeNum
     if (data.Nodes{1,2}(ii,2)^2+data.Nodes{1,2}(ii,3)^2) >= innerRadius^2
         tetNodeZone = [tetNodeZone;data.Nodes{1,2}(ii,:)];
     end
 end
 tetNodeZoneNum = size(tetNodeZone,1);
-tetEle2Check = [];
+tetEle2Check = []; % the tet elements of screw contain element nodes outer innerdiameter
 for ii=1: 1: tetNodeZoneNum
     [row,~] = find(data.Elements{1,2}==tetNodeZone(ii,1));
     tetEle2Check = [tetEle2Check;row];
@@ -81,8 +95,7 @@ for ii=1: 1: hexNodeBTZoneNum
     end
 end
 hexNodeBTZone2Del = unique(hexNodeBTZone2Del);
-%% check if tet mesh points inside Hex mesh elements
-tetNodeBTZone2Del = [];
+%% check if tet mesh points inside hex mesh elements
 tetEle2CheckNum = size(tetEle2Check,1);
 for ii=1: 1: hexNodeBTZoneNum
     parfor jj=1: tetEle2CheckNum
@@ -105,6 +118,37 @@ for ii=1: 1: hexNodeBTZone2DelNum
     ele2Del = [ele2Del;row];
 end
 ele2Del = unique(ele2Del);
+%% check if hex mesh points inside tet mesh elements
+hexEleBTZoneNum = size(hexEleBTZone,1);
+hexEle2CheckNode = data.Elements{1,1}(hexEleBTZone,:);
+for ii=1: 1: tetNodeZoneNum
+    parfor jj=1: hexEleBTZoneNum
+        tetCoor = [...
+            data.Nodes{1,1}(hexEle2CheckNode(jj,1),2:4)',...
+            data.Nodes{1,1}(hexEle2CheckNode(jj,2),2:4)',...
+            data.Nodes{1,1}(hexEle2CheckNode(jj,3),2:4)',...
+            data.Nodes{1,1}(hexEle2CheckNode(jj,4),2:4)',...
+            data.Nodes{1,1}(hexEle2CheckNode(jj,5),2:4)',...
+            data.Nodes{1,1}(hexEle2CheckNode(jj,6),2:4)',...
+            data.Nodes{1,1}(hexEle2CheckNode(jj,7),2:4)',...
+            data.Nodes{1,1}(hexEle2CheckNode(jj,8),2:4)',...
+            ];
+        pntCoor = tetNodeZone(ii,(2:4));
+        paraArr = [tetCoor;1,1,1,1,1,1,1,1]\[pntCoor';1];
+        if isequal(paraArr,abs(paraArr)) || isequal(paraArr,-abs(paraArr))
+            hexNodeBTZone2Del = [hexNodeBTZone2Del;tetNodeZone(ii,1)];
+        end
+    end
+end
+hexNodeBTZone2Del = unique(hexNodeBTZone2Del);
+%% find and the hex elements
+hexNodeBTZone2DelNum = size(hexNodeBTZone2Del,1);
+for ii=1: 1: hexNodeBTZone2DelNum
+    [row,~] = find(data.Elements{1,1}==hexNodeBTZone2Del(ii,1));
+    ele2Del = [ele2Del;row];
+end
+ele2Del = unique(ele2Del);
+% tetNodeZone
 %% delete the hex elements
 hexElements = data.Elements{1,1};
 hexEleDeled = hexElements;
