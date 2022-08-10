@@ -7,8 +7,10 @@ function demo1()
 
 % ---------------------------------------------------------------------
 % import image sequences in a folder, e.g. a001.tif, a002.tif, ...
-folder_name = 'a';
+tic
+folder_name = 'RF_26_L_Rec';
 im = importImSeqs( folder_name );
+toc
 
 % ---------------------------------------------------------------------
 % parameters
@@ -29,7 +31,7 @@ num_sli = size( im, 3 );    % slice
 
 % get unique intensities from image
 intensity = unique( im );     % column vector
-
+toc
 % ---------------------------------------------------------------------
 % get numbering of 8 nodes in each element
 % get list of node coordinates
@@ -37,21 +39,21 @@ intensity = unique( im );     % column vector
 % nodecoor_list(i,:) = [ node_number, x, y, z ]
 
 [ nodecoor_list, ele_cell ] = voxelMesh( im, intensity, num_col, num_row, num_sli );
-
+toc
 % ---------------------------------------------------------------------
 % export
 % scale nodecoor_list using dx, dy, dz
 nodecoor_list( :, 2 ) = nodecoor_list( :, 2 ) * dx;
 nodecoor_list( :, 3 ) = nodecoor_list( :, 3 ) * dy;
 nodecoor_list( :, 4 ) = nodecoor_list( :, 4 ) * dz;
-
+toc
 % generate inp file
 % export multi-phases in image as multi-sections in inp file
 printInp_multiSect( nodecoor_list, ele_cell, ele_type, precision_nodecoor );
 
 % generate bdf file
 printBdf( nodecoor_list, ele_cell, precision_nodecoor );
-
+toc
 
 end
 
