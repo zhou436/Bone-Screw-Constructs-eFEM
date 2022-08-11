@@ -14,13 +14,13 @@ phaseNum = length(intensity);
 eleCell = cell(phaseNum, 1);
 integerType = getIntType(dimXNum, dimYNum, dimZNum);
 
-for i = 1: phaseNum
-    eleIndVector = find(im == intensity(i));
+for ii = 1: phaseNum
+    eleIndVector = find(im == intensity(ii));
     eleNum = size(eleIndVector, 1);
     eleTemp = zeros(eleNum, 10, integerType);
-    parfor j = 1: eleNum
-        % subscript of element in im
-        [dimX, dimY, dimZ] = ind2sub([dimYNum, dimXNum, dimZNum], eleIndVector(j));
+    parfor jj = 1: eleNum
+        % subscript of element in im %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% to modify here
+        [dimX, dimY, dimZ] = ind2sub([dimYNum, dimXNum, dimZNum], eleIndVector(jj));
         % get linear index of eight corner of voxel(row,col,sli) in nodeCoor
         Lind_8corner = [
             (dimY-1)*(dimYNum+1) + dimX + (dimYNum+1)*(dimXNum+1)*(dimZ-1), ...
@@ -34,10 +34,10 @@ for i = 1: phaseNum
            ];
 
         % put Lind_8corner into
-        eleTemp(j, :) = [eleIndVector(j), i, Lind_8corner];
+        eleTemp(jj, :) = [eleIndVector(jj), ii, Lind_8corner];
     end
 
-    eleCell{i} = eleTemp;
+    eleCell{ii} = eleTemp;
 end
 
 end
