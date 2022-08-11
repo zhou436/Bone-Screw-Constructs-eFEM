@@ -12,7 +12,7 @@ function [nodeCoor, eleCell] = voxelMesh(im, intensity, dimXNum, dimYNum, dimZNu
 eleCell = getElement(im, intensity, dimXNum, dimYNum, dimZNum);
 
 % get unique index of nodes
-node_ind_cell = cellfun(@(A) unique(A(:,3:10)), eleCell, 'UniformOutput', 0);
+node_ind_cell = cellfun(@(A) unique(A(:,3:10)), eleCell, 'UniformOutput', false);
 unique_node_ind_v = unique(cell2mat(node_ind_cell));    % column vector
 
 % get list of node coordinates, corresponding to unique_node_ind_v

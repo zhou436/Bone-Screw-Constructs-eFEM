@@ -8,7 +8,10 @@ tic
 folder_name = 'RF_26_L_Rec';
 im = importImSeqs(folder_name);
 im = imresize3(im, 0.25);
-
+%%
+im(im<=50)=0;
+im(im>=50)=255;
+%%
 % ---------------------------------------------------------------------
 % parameters % to be modified
 dx = 1; dy = 1; dz = 1; % scale of original 3d image 
@@ -28,7 +31,7 @@ dimZNum = size(im, 3);    % slice
 
 % get unique intensities from image
 intensity = unique(im);     % column vector
-
+% intensity = 255;            % user defined intensity
 % ---------------------------------------------------------------------
 % get numbering of 8 nodes in each element
 % get list of node coordinates
@@ -53,7 +56,7 @@ printBdf(nodecoor_list, ele_cell, precision_nodecoor);
 toc
 %% plot mesh
 
-plotMesh(ele_cell{2,1}(:,3:10), nodecoor_list);
+plotMesh(ele_cell{1,1}(:,3:10), nodecoor_list);
 axis equal
 toc
 
