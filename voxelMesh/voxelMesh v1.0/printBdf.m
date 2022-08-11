@@ -1,10 +1,10 @@
-function printBdf(nodecoor_list, ele_cell, precision)
+function printBdf(nodeCoor, eleCell, precision)
 % printBdf: print the nodes and elements into Inp file 'test.bdf'
 %
 % Revision history:
 %   Jiexian Ma, mjx0799@gmail.com, Nov 2019
     
-    num_node = size(nodecoor_list, 1);
+    num_node = size(nodeCoor, 1);
     
     % ------------------------------------------------------------------------
     % format of number
@@ -14,7 +14,7 @@ function printBdf(nodecoor_list, ele_cell, precision)
         error('more than 16 digits')
     end
     
-    num_digits_of_int_part = 1 + floor(log10(max(nodecoor_list(end,2:4))));
+    num_digits_of_int_part = 1 + floor(log10(max(nodeCoor(end,2:4))));
                                                              % 182.9 -> 3
     if num_digits_of_int_part + precision + 1 > 16
         error('more than 16 digits')
@@ -33,26 +33,26 @@ function printBdf(nodecoor_list, ele_cell, precision)
     fprintf(fid, ...
             ['GRID*,%d,,', format_node_coor, ',', format_node_coor, ',*\n', ...
             '*,', format_node_coor, '\n'], ...
-            nodecoor_list');
+            nodeCoor');
 
     % ------------------------------------------------------------------------
-    % renumber global element numbering in ele_cell{i}(:,1)
+    % renumber global element numbering in eleCell{i}(:,1)
     count = 0;
-    for i = 1: size(ele_cell, 1)
-        ele_cell{i}(:,1) = (1:size(ele_cell{i},1))' + count;
-        count = count + size(ele_cell{i},1);
+    for i = 1: size(eleCell, 1)
+        eleCell{i}(:,1) = (1:size(eleCell{i},1))' + count;
+        count = count + size(eleCell{i},1);
     end
 
     % print element
     % CHEXA*,5,1,40,46,*
     % *,47,41,10,16,*
     % *,17,11
-    for i = 1: size(ele_cell, 1)
+    for i = 1: size(eleCell, 1)
         fprintf(fid, ...
             ['CHEXA*,%d,%d,%d,%d', ',*\n', ...
              '*,', '%d,%d,%d,%d', ',*\n', ...
              '*,', '%d,%d\n'], ...
-            ele_cell{i}');
+            eleCell{i}');
     end
     
     % ------------------------------------------------------------------------

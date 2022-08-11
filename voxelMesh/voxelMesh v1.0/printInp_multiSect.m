@@ -1,4 +1,4 @@
-function printInp_multiSect(nodecoor_list, ele_cell, ele_type, precision)
+function printInp_multiSect(nodeCoor, eleCell, eleType, precision)
 % printInp_multiSect: print the nodes and elements into Inp file 'test.inp',
 %          test in software abaqus
 % one part with multiple sections
@@ -17,7 +17,7 @@ function printInp_multiSect(nodecoor_list, ele_cell, ele_type, precision)
     % Section
     % ------------------------------------------------------------------------
 	
-    num_sect = length(ele_cell);
+    num_sect = length(eleCell);
     sect_ascii = 65: (65 + num_sect - 1);
     sect_char = char(sect_ascii);     % 'ABCD...'
     
@@ -45,17 +45,17 @@ function printInp_multiSect(nodecoor_list, ele_cell, ele_type, precision)
         ['%d,', format_node_coor, ',', ...
                  format_node_coor, ',', ...
                  format_node_coor, '\n'], ...
-        nodecoor_list');
+        nodeCoor');
     
     % ------------------------------------------------------------------------
     % Element
     for i = 1: num_sect
         fprintf(fid, [...
             '*Element, type=%s, elset=Set-%c'  '\n'...
-           ], ele_type, sect_char(i));
+           ], eleType, sect_char(i));
         
-        % fprintf(fid, '%d,%d,%d,%d,%d,%d,%d,%d,%d\n', ele_cell{i}');
-        printEle(fid, ele_cell{i}(:,[1 3:10]));
+        % fprintf(fid, '%d,%d,%d,%d,%d,%d,%d,%d,%d\n', eleCell{i}');
+        printEle(fid, eleCell{i}(:,[1 3:10]));
     end
     
     % ------------------------------------------------------------------------

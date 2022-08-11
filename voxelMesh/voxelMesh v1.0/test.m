@@ -7,7 +7,7 @@ tic
 % import image sequences in a folder, e.g. a001.tif, a002.tif, ...
 folder_name = 'RF_26_L_Rec';
 im = importImSeqs(folder_name);
-im = imresize3(im, 0.25);
+im = imresize3(im, 0.2);
 %%
 im(im<=50)=0;
 im(im>=50)=255;
@@ -18,8 +18,8 @@ dx = 1; dy = 1; dz = 1; % scale of original 3d image
                         % dx - column direction, dy - row direction,
                         % dz - vertical direction (slice)
 
-ele_type = 'C3D8';     % element type, for printInp_multiSect % C3D8R reduced integration point
-precision_nodecoor = 8; % precision of node coordinates, for output
+eleType = 'C3D8';     % element type, for printInp_multiSect % C3D8R reduced integration point
+nodePreci = 8; % precision of node coordinates, for output
 
 % ---------------------------------------------------------------------
 % preprocess
@@ -35,28 +35,28 @@ intensity = unique(im);     % column vector
 % ---------------------------------------------------------------------
 % get numbering of 8 nodes in each element
 % get list of node coordinates
-% ele_cell{i}(j,:) = [element_number, phase_number, node_number_of_8_nodes]
-% nodecoor_list(i,:) = [node_number, x, y, z]
+% eleCell{i}(j,:) = [element_number, phase_number, node_number_of_8_nodes]
+% nodeCoor(i,:) = [node_number, x, y, z]
 toc
-[nodecoor_list, ele_cell] = voxelMesh(im, intensity, dimXNum, dimYNum, dimZNum);
+[nodeCoor, eleCell] = voxelMesh(im, intensity, dimXNum, dimYNum, dimZNum);
 
 % ---------------------------------------------------------------------
 % export
-% scale nodecoor_list using dx, dy, dz
-nodecoor_list(:, 2) = nodecoor_list(:, 2) * dx;
-nodecoor_list(:, 3) = nodecoor_list(:, 3) * dy;
-nodecoor_list(:, 4) = nodecoor_list(:, 4) * dz;
+% scale nodeCoor using dx, dy, dz
+nodeCoor(:, 2) = nodeCoor(:, 2) * dx;
+nodeCoor(:, 3) = nodeCoor(:, 3) * dy;
+nodeCoor(:, 4) = nodeCoor(:, 4) * dz;
 toc
 % generate inp file
 % export multi-phases in image as multi-sections in inp file
-printInp_multiSect(nodecoor_list, ele_cell, ele_type, precision_nodecoor);
+printInp_multiSect(nodeCoor, eleCell, eleType, nodePreci);
 toc
 % generate bdf file
-printBdf(nodecoor_list, ele_cell, precision_nodecoor);
+printBdf(nodeCoor, eleCell, nodePreci);
 toc
 %% plot mesh
 
-plotMesh(ele_cell{1,1}(:,3:10), nodecoor_list);
+plotMesh(eleCell{2,1}(:,3:10), nodeCoor);
 axis equal
 toc
 

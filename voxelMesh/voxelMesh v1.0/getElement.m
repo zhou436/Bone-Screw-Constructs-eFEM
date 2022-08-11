@@ -6,11 +6,10 @@ function eleCell = getElement(im, intensity, dimXNum, dimYNum, dimZNum)
 % input dimXNum:    Number of voxels in dimension X
 % input dimYNum:    Number of voxels in dimension Y
 % input dimZNum:    Number of voxels in dimension Z
-% output nodeCoor:  node list combined the nodes number and coordinates (x,y,z)
 % output eleCell:   element cell, {m,1}(n,10) [element number, intensity, nodes(8)]
 
 phaseNum = length(intensity);
-% initialize ele_cell
+% initialize eleCell
 eleCell = cell(phaseNum, 1);
 integerType = getIntType(dimXNum, dimYNum, dimZNum);
 
