@@ -1,10 +1,12 @@
-function printInp_multiSect(nodeCoor, eleCell, eleType, precision)
-% printInp_multiSect: print the nodes and elements into Inp file 'test.inp',
-%          test in software abaqus
-% one part with multiple sections
-%
-% Revision history:
-%   Jiexian Ma, mjx0799@gmail.com, Dec 2019
+function printInp(nodeCoor, eleCell, eleType, nodePreci, fileName)
+% build Abaqus inp file
+% Convert 3d image to voxel-based 8-node mesh
+% input nodeCoor:  node list combined the nodes number and coordinates (x,y,z)
+% input eleCell:   element cell, (n,10) [element number, intensity, nodes(8)]
+% input eleType:   element types (e.g. C3D8, C3D8R)
+% input precision: precision of node coordinates
+% input fileName:  filename of the output inp file
+
 
 	% format of Inp file
 	% ------------------------------------------------------------------------
@@ -23,10 +25,10 @@ function printInp_multiSect(nodeCoor, eleCell, eleType, precision)
     
     % format of number
     % '%.(precision)f'
-    format_node_coor = ['%.', num2str(precision), 'f'];
+    format_node_coor = ['%.', num2str(nodePreci), 'f'];
     
     % ------------------------------------------------------------------------
-	fid=fopen('test.inp','wW');
+	fid=fopen(sprintf('%s.inp',fileName),'wW');
     % ------------------------------------------------------------------------
 	% Heading
     fprintf(fid, [...
