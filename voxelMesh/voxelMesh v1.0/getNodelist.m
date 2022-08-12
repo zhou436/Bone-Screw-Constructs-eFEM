@@ -7,9 +7,9 @@ function nodeCoor = getNodelist(uniNode, dimXNum, dimYNum, dimZNum)
 % input dimZNum:    Number of voxels in dimension Z
 % output nodeCoor:  Coordinates of node in uniNode, (n,4), (n,x,y,z)
 
-xs = 0.5: dimXNum+0.5;
-ys = 0.5: dimYNum+0.5;
-zs = 0.5: dimZNum+0.5;
+xs = -dimXNum/2: 1: dimXNum/2;
+ys = -dimYNum/2: 1: dimYNum/2;
+zs = -dimZNum/2: 1: dimZNum/2;
 [X, Y, Z] = meshgrid(xs, ys, zs);
 
 % reshape into vector
@@ -23,19 +23,10 @@ X = X(uniNode);
 Y = Y(uniNode);
 Z = Z(uniNode);
 
-num_node = length(uniNode);
-% temporary list for parfor
-temp_list = zeros(num_node, 3);
-
-for i = 1: num_node
-    temp_list(i, :) = [X(i), Y(i), Z(i)];
-end
-
-% create point list, storing x y z coordinate of all nodes
-% nodeCoor(i,:) = [node_number, x, y, z]
-nodeCoor = zeros(num_node, 4);
+nodeNum = length(uniNode);
+nodeCoor = zeros(nodeNum, 4);
 nodeCoor(:, 1) = uniNode;
-nodeCoor(:, 2:4) = temp_list;
+nodeCoor(:, 2:4) = [X, Y, Z];
 
 end
 
