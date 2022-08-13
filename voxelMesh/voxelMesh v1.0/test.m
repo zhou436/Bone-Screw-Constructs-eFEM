@@ -12,8 +12,8 @@ folder_name = 'RF_26_L_Rec';
 im = importImSeqs(folder_name);
 im = imresize3(im, 0.2);
 %%
-% im(im<=50)=0;
-% im(im>=50)=255;
+im(im<=50)=0;
+im(im>=50)=255;
 %%
 % ---------------------------------------------------------------------
 % parameters % to be modified
@@ -54,9 +54,6 @@ toc
 % export multi-phases in image as multi-sections in inp file
 printInp(nodeCoor, eleCell, eleType, nodePreci, fileName);
 toc
-% generate bdf file
-% printBdf(nodeCoor, eleCell, nodePreci);
-% toc
 %% plot mesh
 
 plotMesh(eleCell{2,1}(:,3:10), nodeCoor);
