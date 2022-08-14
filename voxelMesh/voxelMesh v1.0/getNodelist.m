@@ -27,7 +27,6 @@ nodeNum = length(uniNode);
 nodeCoor = zeros(nodeNum, 4);
 nodeCoor(:, 1) = uniNode;
 nodeCoor(:, 2:4) = [X, Y, Z];
-
 end
 
 
