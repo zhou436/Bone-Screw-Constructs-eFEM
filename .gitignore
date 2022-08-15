@@ -1,4 +1,13 @@
-es (110 sloc)  1.81 KB
+# MATLAB
+*.asv
+
+# micro-CT images
+*.bmp
+
+# Abaqus input files
+*.bdf
+*.inp
+
 
 # micro-CT images
 *.bmp
