@@ -12,8 +12,8 @@ folder_name = 'RF_26_L_Rec';
 im = importImSeqs(folder_name);
 im = imresize3(im, 0.2);
 %%
-im(im<=50)=0;
-im(im>=50)=255;
+% im(im<=50)=0;
+% im(im>=50)=255;
 %%
 % ---------------------------------------------------------------------
 % parameters % to be modified
@@ -40,7 +40,7 @@ intensity = unique(im);     % column vector
 % get list of node coordinates
 % eleCell{i}(j,:) = [element_number, phase_number, node_number_of_8_nodes]
 % nodeCoor(i,:) = [node_number, x, y, z]
-toc
+% toc
 [nodeCoor, eleCell] = voxelMesh(im, intensity, dimXNum, dimYNum, dimZNum);
 
 % ---------------------------------------------------------------------
@@ -58,7 +58,7 @@ toc
 
 plotMesh(eleCell{2,1}(:,3:10), nodeCoor);
 axis equal
-toc
+% toc
 
 
 
