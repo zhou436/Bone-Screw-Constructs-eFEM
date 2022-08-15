@@ -1,4 +1,4 @@
-function [] = plotMesh(elements, vertCoor)
+function [] = plotMesh(elements, vertCoor, transPara, lineStyle)
 % triSurfs = [];
 if size(elements,2) == 8
     triSurfs = zeros(12*size(elements,1),3);
@@ -18,7 +18,7 @@ if size(elements,2) == 8
             [elements(ii,4),elements(ii,3),elements(ii,7)];...
             ];
     end
-elseif size(elements,2) == 10
+elseif size(elements,2) == 10 || size(elements,2) == 4
     triSurfs = zeros(4*size(elements,1),3);
     for ii=1: 1: size(elements,1)
         triSurfs(ii*4-3:ii*4,:) = [...
@@ -29,7 +29,7 @@ elseif size(elements,2) == 10
             ];
     end
 end
-trisurf(triSurfs,vertCoor(:,2),vertCoor(:,3),vertCoor(:,4));
+trisurf(triSurfs,vertCoor(:,2),vertCoor(:,3),vertCoor(:,4),'FaceAlpha',transPara,'LineStyle',lineStyle);
 axis equal
 % toc
 

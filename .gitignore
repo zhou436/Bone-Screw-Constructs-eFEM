@@ -6,7 +6,8 @@
 
 # Abaqus input files
 *.bdf
-*.inp
+*.rpy.*
+*.rpy
 
 
 # micro-CT images
