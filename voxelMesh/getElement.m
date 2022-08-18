@@ -1,5 +1,5 @@
 function eleCell = getElement(im, intensity, dimXNum, dimYNum, dimZNum)
-% build element cell with number, intensity, and nodes
+% Build element cell with number, intensity, and nodes
 % Convert 3d image to voxel-based 8-node mesh
 % input im:         micro-CT image, (dimXNum,dimYNum,dimZNum)
 % input intensity:  A matrix (n,1), n intensity numbers

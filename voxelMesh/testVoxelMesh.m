@@ -2,9 +2,9 @@ clear all
 close all
 clc
 %%
-% Code based on Jiexian Ma (2022). voxelMesh (voxel-based mesh) 
+% Part source code and ideas based on Jiexian Ma (2022). voxelMesh (voxel-based mesh) 
 % (https://www.mathworks.com/matlabcentral/fileexchange/104720-voxelmesh-voxel-based-mesh)
-% MATLAB Central File Exchange.
+% MATLAB Central File Exchange. Last Access 202207
 tic
 % ---------------------------------------------------------------------
 % import image sequences in a folder, e.g. a001.tif, a002.tif, ...
