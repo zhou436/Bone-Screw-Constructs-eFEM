@@ -1,6 +1,12 @@
 # MATLAB
 *.asv
 
+# Images
+*.bmp
+
+# Abaqus
+*.bdf
+*.inp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
