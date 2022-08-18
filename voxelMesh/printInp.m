@@ -7,17 +7,6 @@ function printInp(nodeCoor, eleCell, eleType, nodePreci, fileName)
 % input precision: precision of node coordinates
 % input fileName:  filename of the output inp file
 
-% format of Inp file
-% ------------------------------------------------------------------------
-% Heading
-%
-% Node
-%
-% Element
-%
-% Section
-% ------------------------------------------------------------------------
-
 partNum = length(eleCell);
 sect_ascii = 65: (65 + partNum - 1);
 sect_char = char(sect_ascii);     % 'ABCD...'
