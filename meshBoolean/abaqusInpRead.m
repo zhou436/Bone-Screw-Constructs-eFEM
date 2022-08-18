@@ -98,7 +98,7 @@ for i = 1:1:numel(ssep)
         myMatIJ = str2double(p{j});
         myMatrix{i}(1,j) = myMatIJ;
     end
-    myMatrix{i}( isnan(myMatrix{i}))=[];
+    myMatrix{i}(isnan(myMatrix{i}))=[];
     if(isempty(myMatrix{i}))
         myFlag(i) = false;
     end

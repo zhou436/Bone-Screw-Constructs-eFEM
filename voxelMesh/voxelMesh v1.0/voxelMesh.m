@@ -1,20 +1,22 @@
-function [ nodecoor_list, ele_cell ] = voxelMesh( im, intensity, ...
-                                                num_col, num_row, num_sli )
-% convert 3d image to voxel-based 8-node mesh
-% Revision history:
-%   Jiexian Ma, mjx0799@gmail.com, May 2020
+function [nodeCoor, eleCell] = voxelMesh(im, intensity, dimXNum, dimYNum, dimZNum)
+% Convert 3d image to voxel-based 8-node mesh
+% input im:         micro-CT image, (dimXNum,dimYNum,dimZNum)
+% input intensity:  A matrix (n,1), n intensity numbers
+% input dimXNum:    Number of voxels in dimension X
+% input dimYNum:    Number of voxels in dimension Y
+% input dimZNum:    Number of voxels in dimension Z
+% output nodeCoor:  node list combined the nodes number and coordinates (x,y,z)
+% output eleCell:   element cell, (n,10) [element number, intensity, nodes(8)]
 
 % get numbering of 8 nodes in each element, corresponding to intensity
-% ele_cell{i}(j,:) = [ element_number, phase_number, node_number_of_8_nodes ]
-ele_cell = getElement( im, intensity, num_col, num_row, num_sli );
+eleCell = getElement(im, intensity, dimXNum, dimYNum, dimZNum);
 
 % get unique index of nodes
-node_ind_cell = cellfun( @(A) unique(A(:,3:10)), ele_cell, 'UniformOutput', 0 );
-unique_node_ind_v = unique( cell2mat( node_ind_cell ) );    % column vector
+nodIndCell = cellfun(@(A) unique(A(:,3:10)), eleCell, 'UniformOutput', false);
+uniNode = unique(cell2mat(nodIndCell));    % column vector
 
-% get list of node coordinates, corresponding to unique_node_ind_v
-% nodecoor_list(i,:) = [ node_number, x, y, z ]
-nodecoor_list = getNodelist( unique_node_ind_v, num_col, num_row, num_sli );
+% get list of node coordinates, corresponding to uniNode
+nodeCoor = getNodelist(uniNode, dimXNum, dimYNum, dimZNum);
 
 end
 
