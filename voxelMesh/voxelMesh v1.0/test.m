@@ -40,7 +40,7 @@ intensity = unique(im);     % column vector
 % get list of node coordinates
 % eleCell{i}(j,:) = [element_number, phase_number, node_number_of_8_nodes]
 % nodeCoor(i,:) = [node_number, x, y, z]
-toc
+% toc
 [nodeCoor, eleCell] = voxelMesh(im, intensity, dimXNum, dimYNum, dimZNum);
 
 % ---------------------------------------------------------------------
@@ -54,14 +54,11 @@ toc
 % export multi-phases in image as multi-sections in inp file
 printInp(nodeCoor, eleCell, eleType, nodePreci, fileName);
 toc
-% generate bdf file
-% printBdf(nodeCoor, eleCell, nodePreci);
-% toc
 %% plot mesh
 
 plotMesh(eleCell{2,1}(:,3:10), nodeCoor);
 axis equal
-toc
+% toc
 
 
 
