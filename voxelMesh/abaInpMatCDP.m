@@ -5,7 +5,7 @@ function abaInpMatCDP(fid, matName)
 
 % fileName = 'printInpTemp';
 % fid=fopen(sprintf('%s.inp',fileName),'wW');
-% matName = 'Bone';
+matName = 'Bone';
 % Print Heading of material section
 fprintf(fid, ...
     ['** ----------------------------------------------------------------\n'...
@@ -15,9 +15,9 @@ fprintf(fid, ...
     '*Material, name=%s\n'], matName);
 
 % Print density
-varDensity = 1.89e-09;
+varDensity = '1.89e-09';
 fprintf(fid, '*Density\n');
-fprintf(fid, '%f,\n', varDensity);
+fprintf(fid, '%s,\n', varDensity);
 
 % Print Young's modulus and Poisson's ratio
 varEmPr = [300, 0.3]; % Young's modulus and Poisson's ratio
@@ -39,7 +39,7 @@ varCDPCHard = [...
     0.25, 0.0991667;
     ];
 fprintf(fid, '*Concrete Compression Hardening\n');
-fprintf(fid, '%f, %f\n', varCDPCHard);
+fprintf(fid, '%f, %f\n', varCDPCHard');
 
 % Print CDP tension stiffening table
 varCDPTSti = [...
@@ -49,11 +49,11 @@ varCDPTSti = [...
     0.2, 0.0493333;
     ];
 fprintf(fid, '*Concrete Tension Stiffening\n');
-fprintf(fid, '%f, %f\n', varCDPTSti);
+fprintf(fid, '%f, %f\n', varCDPTSti');
 
 % Print CDP compression damage table
 varCDPCDam = [...
-    0.0,         0.0;
+    0.0, 0.0;
     0.0, 0.00833333;
     0.0, 0.0166667;
     0.325, 0.0441667;
@@ -61,7 +61,7 @@ varCDPCDam = [...
     0.975, 0.0991667;
     ];
 fprintf(fid, '*Concrete Compression Damage\n');
-fprintf(fid, '%f, %f\n', varCDPCDam);
+fprintf(fid, '%f, %f\n', varCDPCDam');
 
 % Print CDP tension damage table
 varCDPTDam = [...
@@ -71,12 +71,10 @@ varCDPTDam = [...
     0.966667, 0.0493333;
     ];
 fprintf(fid, '*Concrete Tension Damage\n');
-fprintf(fid, '%f, %f\n', varCDPTDam);
+fprintf(fid, '%f, %f\n', varCDPTDam');
 
 % Print CDP failure table
-varCDPFai = [...
-    0.0493333,0.0991667,0.966667,0.975...
-    ];
+varCDPFai = [0.0493333,0.0991667,0.966667,0.975];
 fprintf(fid, '*Concrete Failure, TYPE=Strain\n');
 fprintf(fid, '%f, %f, %f, %f\n', varCDPFai);
 
