@@ -10,7 +10,7 @@ tic
 % import image sequences in a folder, e.g. a001.tif, a002.tif, ...
 folder_name = 'RF_26_L_Rec';
 im = importImSeqs(folder_name);
-im = imresize3(im, 0.1);
+im = imresize3(im, 0.2);
 %%
 % im(im<=50)=0;
 % im(im>=50)=255;

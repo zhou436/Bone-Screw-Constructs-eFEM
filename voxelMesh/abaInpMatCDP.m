@@ -74,7 +74,7 @@ fprintf(fid, '*Concrete Tension Damage\n');
 fprintf(fid, '%f, %f\n', varCDPTDam');
 
 % Print CDP failure table
-varCDPFai = [0.0493333,0.0991667,0.966667,0.975];
+varCDPFai = [0.0493333, 0.0991667, 0.966667, 0.975];
 fprintf(fid, '*Concrete Failure, TYPE=Strain\n');
 fprintf(fid, '%f, %f, %f, %f\n', varCDPFai);
 
