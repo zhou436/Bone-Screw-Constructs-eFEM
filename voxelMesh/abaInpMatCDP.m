@@ -5,7 +5,7 @@ function abaInpMatCDP(fid, matName)
 
 % fileName = 'printInpTemp';
 % fid=fopen(sprintf('%s.inp',fileName),'wW');
-matName = 'Bone';
+% matName = 'Bone';
 % Print Heading of material section
 fprintf(fid, ...
     ['** ----------------------------------------------------------------\n'...

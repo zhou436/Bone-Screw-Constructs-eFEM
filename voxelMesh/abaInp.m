@@ -1,5 +1,13 @@
-function printInpTemp()
-fileName = 'printInpTemp';
+function abaInp(nodeCoor, eleCell, eleType, nodePreci, fileName)
+% build Abaqus inp file
+% Convert 3d image to voxel-based 8-node mesh
+% input nodeCoor:  node list combined the nodes number and coordinates (x,y,z)
+% input eleCell:   element cell, (n,10) [element number, intensity, nodes(8)]
+% input eleType:   element types (e.g. C3D8, C3D8R)
+% input precision: precision of node coordinates
+% input fileName:  filename of the output inp file
+
+% fileName = 'printInpTemp';
 fid=fopen(sprintf('%s.inp',fileName),'wW');
 % ------------------------------------------------------------------------
 % Print Heading
@@ -12,6 +20,10 @@ headingKWs = [...
 fprintf(fid, headingKWs);
 fprintf(fid, '** \n');
 fprintf(fid, '** ----------------------------------------------------------------\n');
+
+% Print Parts from Assemblys
+
+abaInpParts(fid, nodeCoor, eleCell, eleType, nodePreci);
 
 % Print Element controls
 abaInpEleCon(fid);
@@ -41,4 +53,5 @@ abaInpBC(fid)
 abaInpOutReq(fid);
 
 fclose(fid);
+disp('Check the inp file!');
 end
