@@ -23,7 +23,7 @@ fprintf(fid, '** ---------------------------------------------------------------
 
 % Print Parts from Assemblys
 
-abaInpParts(fid, nodeCoor, eleCell, eleType, nodePreci);
+parts = abaInpParts(fid, nodeCoor, eleCell, eleType, nodePreci);
 
 % Print Element controls
 abaInpEleCon(fid);
