@@ -1,4 +1,4 @@
-function abaInp(nodeCoor, eleCell, eleType, nodePreci, fileName, abaData)
+function abaInp(nodeCoor, eleCell, nodePreci, fileName, abaData)
 % build Abaqus inp file
 % Convert 3d image to voxel-based 8-node mesh
 % input nodeCoor:  node list combined the nodes number and coordinates (x,y,z)
@@ -22,8 +22,7 @@ fprintf(fid, '** \n');
 fprintf(fid, '** ----------------------------------------------------------------\n');
 
 % Print Parts from Assemblys
-
-parts = abaInpParts(fid, nodeCoor, eleCell, eleType, nodePreci);
+abaInpParts(fid, nodeCoor, eleCell, nodePreci, abaData.Bone.Parts);
 
 % Print Element controls
 abaInpEleCon(fid);
@@ -40,14 +39,14 @@ abaInpMatCDP(fid, abaData.Bone.MAT);
 % abaInpMatLE(fid, matName);
 
 % Print interactions
-abaInpInteraction(fid)
+abaInpInteraction(fid, abaData.fricCoeef);
 
 % Print Step
-mSFactor = '1e-04';
-abaInpStep(fid, mSFactor);
+
+abaInpStep(fid, abaData.mSFactor);
 
 % Print Boundary conditions (BC)
-abaInpBC(fid)
+abaInpBC(fid, abaData.displacement);
 
 % Print Outputs
 abaInpOutReq(fid);

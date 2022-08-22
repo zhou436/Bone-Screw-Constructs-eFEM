@@ -1,28 +1,26 @@
-function abaInpMatLE(fid, matName)
+function abaInpMatLE(fid, MAT)
 % Print Abaqus .inp material part
-% input fid:        File ID
-% input matName:    Material name, a string
+% input fid:            File ID
+% input MAT.matName:    Material name, a string
+% input MAT.varDens:    Material density (important for explicit simulation)
+% input MAT.vaEL:       Elastic properties [Young's modulus, Poisson's ratio]
 
-% fileName = 'printInpTemp';
-% fid=fopen(sprintf('%s.inp',fileName),'wW');
-% matName = 'Bone';
 % Print Heading of material section
 fprintf(fid, ...
     ['** ----------------------------------------------------------------\n'...
     '** \n'...
     '** MATERIALS\n'...
     '** \n'...
-    '*Material, name=%s\n'], matName);
+    '*Material, name=%s\n'], MAT.matName);
 
 % Print density
-varDensity = 1.89e-09;
+% varDens = 1.89e-09;
 fprintf(fid, '*Density\n');
-fprintf(fid, '%f,\n', varDensity);
+fprintf(fid, '%f,\n', varDens);
 
 % Print Young's modulus and Poisson's ratio
-varEmPr = [300, 0.3]; % Young's modulus and Poisson's ratio
 fprintf(fid, '*Elastic\n');
-fprintf(fid, '%f, %f\n', varEmPr);
+fprintf(fid, '%f, %f\n', vaEL);
 
 % Print Ending of material section
 fprintf(fid, '** \n');

@@ -1,11 +1,10 @@
-function abaInpInteraction(fid)
+function abaInpInteraction(fid, fricCoeef)
 % Print Abaqus .inp step part
 % input fid:        File ID
 % input mSFactor:   Mass scaling factor (min step time)
 
 % fileName = 'printInpTemp';
 % fid=fopen(sprintf('%s.inp',fileName),'wW');
-fricCoeef = 0.4514;
 
 intKWs = [...
     '** ----------------------------------------------------------------\n'...

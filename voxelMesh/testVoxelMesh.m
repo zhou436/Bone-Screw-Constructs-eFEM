@@ -49,7 +49,7 @@ nodeCoor(:, 2) = nodeCoor(:, 2) * dx;
 nodeCoor(:, 3) = nodeCoor(:, 3) * dy;
 nodeCoor(:, 4) = nodeCoor(:, 4) * dz;
 toc
-%% Abaqus parameters
+%% Abaqus parameters Bone
 abaData.Bone.MAT.matName = 'Bone';
 abaData.Bone.MAT.varDens = '1.89e-09';
 abaData.Bone.MAT.vaEL = [300, 0.3]; % Young's modulus and Poisson's ratio
@@ -84,15 +84,21 @@ abaData.Bone.MAT.varCDPTDam = [... % CDP tension damage
     ];
 % CDP failure strain and damage
 abaData.Bone.MAT.varCDPFai = [0.0493333, 0.0991667, 0.966667, 0.975];
+abaData.Bone.Parts.eleType = ['C3D8','C3D8R']; % element type, for printInp_multiSect % C3D8R reduced integration point
+abaData.Bone.Parts.partName = ['Bone','Void'];
+abaData.Bone.Parts.partNum = 2;
 
+%% Abaqus parameters General
+abaData.mSFactor = '1e-04';
+abaData.fricCoeef = 0.30;
+abaData.displacement = -2.5;
 
 
 %%
 % generate inp file
 % export multi-phases in image as multi-sections in inp file
-fileName = 'printInpTemp';
-eleType = 'C3D8';     % element type, for printInp_multiSect % C3D8R reduced integration point
-abaInp(nodeCoor, eleCell{2,1}, eleType, nodePreci, fileName, abaData);
+fileName = 'printInpTemp';     
+abaInp(nodeCoor, eleCell{2,1}, nodePreci, fileName, abaData);
 toc
 %% plot mesh
 plotMesh(eleCell{2,1}(:,3:10), nodeCoor);

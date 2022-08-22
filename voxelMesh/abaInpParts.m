@@ -1,53 +1,54 @@
-function parts = abaInpParts(fid, nodeCoor, eleCell, eleType, nodePreci)
+function abaInpParts(fid, nodeCoor, eleCell, nodePreci, Parts)
 % Print Abaqus .inp material part
-% input fid:        File ID
-% input matName:    Material name, a string
+% input fid:            File ID
+% input Parts.eleType:  Element types, [strings], size number of parts
+% input Parts.partName: Part names, [strings], size number of parts
+% input Parts.partNum
 
 % fileName = 'printInpTemp';
 % fid=fopen(sprintf('%s.inp',fileName),'wW');
 
-% partNum = length(eleCell);
-partNum = 1;
 % format of number
 % '%.(precision)f'
 nodeFormat = ['%.', num2str(nodePreci), 'f'];
 
 % Print Heading of material section
 fprintf(fid, '** ----------------------------------------------------------------\n');
-fprintf(fid, '** \n');
+fprintf(fid, '**\n');
 fprintf(fid, '** PARTS\n');
-fprintf(fid, '** \n');
+fprintf(fid, '**\n');
+for ii = 1: Parts.partNum
+    fprintf(fid, [...
+        '**\n'...
+        '*Part, name=%s\n'...
+        '*End Part\n'...
+        '**\n'...
+        ], Parts.partName(ii));
+end
 
 fprintf(fid, [...
-    '*Part, name=Bone\n'...
-    '*End Part\n'...
-    '**\n'...
     '**\n'...
     '** ASSEMBLY\n'...
     '**\n'...
     '*Assembly, name=Assembly\n'...
     '**\n'...
-    '*Instance, name=Bone-1, part=Bone\n'...
-    ]);
+    '*Instance, name=%s-1, part=%s\n'...
+    ],  Parts.partName(ii),  Parts.partName(ii));
 
-% ------------------------------------------------------------------------
 % Node
 fprintf(fid, '*Node\n');
-
 % print coordinates of nodes
-% '%d,%.4f,%.4f,%.4f\n'
 fprintf(fid, ...
     ['%d,', nodeFormat, ',', ...
     nodeFormat, ',', ...
     nodeFormat, '\n'], ...
     nodeCoor');
 
-% ------------------------------------------------------------------------
 % Element
-for ii = 1: partNum
+for ii = 1: Parts.partNum
     fprintf(fid, [...
         '*Element, type=%s, elset=Set-%d'  '\n'...
-        ], eleType, ii);
+        ], Parts.eleType(ii), ii);
     printEle(fid, eleCell(:,[1 3:10]), 9);
     fprintf(fid, [...
         '** Section: Screw\n'...
@@ -81,7 +82,6 @@ printEle(fid, nodeBot(end-nodeBotNum+nodeBotNumF+1:end), nodeBotNum-nodeBotNumF)
 fprintf(fid, '** \n');
 fprintf(fid, '** ----------------------------------------------------------------\n');
 % fclose(fid);
-parts = [];
 end
 
 function printEle(fid, ele, eleNum)
