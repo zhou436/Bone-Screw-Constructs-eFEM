@@ -43,7 +43,7 @@ abaInpMatCDP(fid, abaData.Bone.MAT);
 abaInpInteraction(fid)
 
 % Print Step
-mSFactor = '5e-05';
+mSFactor = '1e-04';
 abaInpStep(fid, mSFactor);
 
 % Print Boundary conditions (BC)
