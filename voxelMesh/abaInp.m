@@ -1,4 +1,4 @@
-function abaInp(nodeCoor, eleCell, eleType, nodePreci, fileName)
+function abaInp(nodeCoor, eleCell, eleType, nodePreci, fileName, abaData)
 % build Abaqus inp file
 % Convert 3d image to voxel-based 8-node mesh
 % input nodeCoor:  node list combined the nodes number and coordinates (x,y,z)
@@ -32,8 +32,8 @@ abaInpEleCon(fid);
 abaInpAmp(fid);
 
 % Print Material properties (CDP)
-matName = 'Bone';
-abaInpMatCDP(fid, matName);
+
+abaInpMatCDP(fid, abaData.Bone.MAT);
 
 % Print Material properties (Linear Elastic)
 % matName = 'Screw';
