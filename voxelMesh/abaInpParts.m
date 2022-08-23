@@ -1,9 +1,9 @@
 function abaInpParts(fid, nodeCoor, eleCell, nodePreci, Parts)
 % Print Abaqus .inp material part
 % input fid:            File ID
-% input Parts.eleType:  Element types, [strings], size number of parts
-% input Parts.partName: Part names, [strings], size number of parts
-% input Parts.partNum
+% input Parts.eleType:  Element types, {strings}, size number of parts
+% input Parts.partName: Part names, {strings}, size number of parts
+% input Parts.partNum:  Number of parts
 
 % fileName = 'printInpTemp';
 % fid=fopen(sprintf('%s.inp',fileName),'wW');

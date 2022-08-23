@@ -34,9 +34,18 @@ abaData.Bone.MAT.varCDPTDam = [... % CDP tension damage
     ];
 % CDP failure strain and damage
 abaData.Bone.MAT.varCDPFai = [0.0493333, 0.0991667, 0.966667, 0.975];
-abaData.Bone.Parts.eleType = ['C3D8','C3D8R']; % element type, for printInp_multiSect % C3D8R reduced integration point
-abaData.Bone.Parts.partName = ['Bone','Void'];
-abaData.Bone.Parts.partNum = 2;
+abaData.Bone.Parts.eleType = {'C3D8'}; % element type, for printInp_multiSect % C3D8R reduced integration point
+abaData.Bone.Parts.partName = {'Bone'};
+abaData.Bone.Parts.partNum = 1;
+
+%% Abaqus parameters Screw
+abaData.Screw.MAT.matName = 'Screw';
+abaData.Screw.MAT.varDens = '4.50e-09';
+abaData.Screw.MAT.vaEL = [120000, 0.3]; % Young's modulus and Poisson's ratio
+
+abaData.Screw.Parts.eleType = {'C3D10'}; % element type, for printInp_multiSect % C3D8R reduced integration point
+abaData.Screw.Parts.partName = {'Screw'};
+abaData.Screw.Parts.partNum = 1;
 
 %% Abaqus parameters General
 abaData.mSFactor = '1e-04';
