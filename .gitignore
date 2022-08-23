@@ -3,6 +3,7 @@
 
 # Images
 *.bmp
+*.txt
 
 # Abaqus
 *.bdf
