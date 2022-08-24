@@ -50,17 +50,22 @@ intensity = unique(imSca);     % column vector
 nodeCoor(:, 2) = nodeCoor(:, 2) * dx;
 nodeCoor(:, 3) = nodeCoor(:, 3) * dy;
 nodeCoor(:, 4) = nodeCoor(:, 4) * dz;
-abaData.Bone.Nodes = nodeCoor;
+%% clean nodes
+% nodes are double, memory consumed!
+nodeCoorUni = nodeCoor(unique(reshape(eleCell{2,1}(:,3:10),[],1)),:);
+%%
+abaData.Bone.Nodes = nodeCoorUni;
 abaData.Bone.Elements = eleCell{2,1}(:,[1 3:10]);
-clear nodeCoor  eleCell
+clear eleCell nodeCoorUni
 toc
+
 %% Output Abaqus files
 abaData = abaInpData(abaData); % basic abaqus settings
 fileName = 'printInpTemp';     
 abaInp(fileName, abaData); % generate inp file
 % toc
 %% plot mesh
-plotMesh(abaData.Bone.Elements(:,2:9), abaData.Bone.Nodes, 1, '-'); % 'none' for no edges
+plotMesh(abaData.Bone.Elements(:,2:9), nodeCoor, 1, '-'); % 'none' for no edges
 % volshow(imSca, 'ScaleFactors', [pixelSizeSca,pixelSizeSca,pixelSizeSca]);
 hold on
 % Load screw data and plot
@@ -75,4 +80,6 @@ zlabel('z');
 zlim([0, inf]);
 
 % toc
+%% run abaqus simulation
+a = "abaqus job=printInpTemp double cpus=24";
 
