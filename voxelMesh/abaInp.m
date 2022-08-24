@@ -47,6 +47,9 @@ fprintf(fid, [...
 abaInpPart(fid, abaData.Bone);
 abaInpPart(fid, abaData.Screw);
 
+% Print Sets for BC and output
+abaInpSet(fid, abaData.Bone);
+
 fprintf(fid,'*End Assembly\n');
 fprintf(fid, '** \n');
 fprintf(fid, '** ----------------------------------------------------------------\n');
