@@ -16,11 +16,11 @@ fprintf(fid, ...
 % Print density
 % varDens = 1.89e-09;
 fprintf(fid, '*Density\n');
-fprintf(fid, '%f,\n', varDens);
+fprintf(fid, '%f,\n', MAT.varDens);
 
 % Print Young's modulus and Poisson's ratio
 fprintf(fid, '*Elastic\n');
-fprintf(fid, '%f, %f\n', vaEL);
+fprintf(fid, '%f, %f\n', MAT.vaEL);
 
 % Print Ending of material section
 fprintf(fid, '** \n');

@@ -22,8 +22,34 @@ fprintf(fid, '** \n');
 fprintf(fid, '** ----------------------------------------------------------------\n');
 
 % Print Part
+fprintf(fid, '** ----------------------------------------------------------------\n');
+fprintf(fid, '**\n');
+fprintf(fid, '** PARTS\n');
+fprintf(fid, '**\n');
+for ii=1: size(abaData.Parts,2)
+    fprintf(fid, [...
+    '**\n'...
+    '*Part, name=%s\n'...
+    '*End Part\n'...
+    '**\n'...
+    ], abaData.Parts{ii});
+end
+fprintf(fid, '** \n');
+fprintf(fid, '** ----------------------------------------------------------------\n');
+fprintf(fid, [...
+    '**\n'...
+    '** ASSEMBLY\n'...
+    '**\n'...
+    '*Assembly, name=Assembly\n'...
+    '**\n'...
+    ]);
+
 abaInpPart(fid, abaData.Bone);
 abaInpPart(fid, abaData.Screw);
+
+fprintf(fid,'*End Assembly\n');
+fprintf(fid, '** \n');
+fprintf(fid, '** ----------------------------------------------------------------\n');
 
 % Print Element controls
 abaInpEleCon(fid, abaData.Bone);
@@ -33,18 +59,15 @@ abaInpEleCon(fid, abaData.Bone);
 abaInpAmp(fid);
 
 % Print Material properties (CDP)
-
 abaInpMatCDP(fid, abaData.Bone.MAT);
 
 % Print Material properties (Linear Elastic)
-% matName = 'Screw';
-% abaInpMatLE(fid, matName);
+abaInpMatLE(fid, abaData.Screw.MAT);
 
 % Print interactions
 abaInpInteraction(fid, abaData.fricCoeef);
 
 % Print Step
-
 abaInpStep(fid, abaData.mSFactor);
 
 % Print Boundary conditions (BC)
