@@ -1,4 +1,4 @@
-function abaInpEleCon(fid, Parts)
+function abaInpEleCon(fid, Part)
 % Print Abaqus .inp material part
 % input fid:        File ID
 
@@ -7,20 +7,21 @@ function abaInpEleCon(fid, Parts)
 
 % Print Heading of element control section
 fprintf(fid, '** ----------------------------------------------------------------\n');
+fprintf(fid, '** \n');
 
-for ii=1: Parts.partNum
-    fprintf(fid, '** \n');
-    outputKWs = [...
-        '** ELEMENT CONTROLS\n'...
-        '**\n'...
-        '*Section Controls, name=EC-%d, DISTORTION CONTROL=YES, ELEMENT DELETION=YES, MAX DEGRADATION=0.8, second order accuracy=YES\n'...
-        '1., 1., 1.\n'...
-        ];
-    fprintf(fid, outputKWs, ii);
-    fprintf(fid, '** \n');
-end
+% Print element control section
+outputKWs = [...
+    '** ELEMENT CONTROLS\n'...
+    '**\n'...
+    '*Section Controls, name=EC-%d, DISTORTION CONTROL=YES, ELEMENT DELETION=%s, MAX DEGRADATION=0.8, second order accuracy=YES\n'...
+    '1., 1., 1.\n'...
+    ];
+fprintf(fid, outputKWs, [Part.setNum, Part.eleDel]);
+
+
 
 % Print Ending of element control section
+fprintf(fid, '** \n');
 fprintf(fid, '** ----------------------------------------------------------------\n');
 % fclose(fid);
 end
