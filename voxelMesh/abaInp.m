@@ -48,7 +48,7 @@ abaInpPart(fid, abaData.Bone);
 abaInpPart(fid, abaData.Screw);
 
 % Print Sets for BC and output
-abaInpSet(fid, abaData.Bone);
+abaInpSet(fid, abaData.Bone, abaData.Screw);
 
 fprintf(fid,'*End Assembly\n');
 fprintf(fid, '** \n');
@@ -56,7 +56,7 @@ fprintf(fid, '** ---------------------------------------------------------------
 
 % Print Element controls
 abaInpEleCon(fid, abaData.Bone);
-% abaInpEleCon(fid, abaData.Screw);
+abaInpEleCon(fid, abaData.Screw);
 
 % Print Amplitudes
 abaInpAmp(fid);

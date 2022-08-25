@@ -56,7 +56,7 @@ abaData.Screw.eleDel = 'NO';
 %% Abaqus parameters General
 abaData.mSFactor = '1e-04';
 abaData.fricCoeef = 0.30;
-abaData.displacement = -2.5;
+abaData.displacement = 2.5;
 % abaData.BC.BCTop.Name = 'ScrewTop';
 abaData.Parts = {'Screw', 'Bone'};
 
