@@ -75,16 +75,16 @@ MAT.tens.CDPtable(:,6) = MAT.tens.CDPtable(:,5)-MAT.tens.CDPtable(:,3)./(1-MAT.t
 
 %% Check if Ascending comp
 % strain, stress, damage, elastic strain, inelastic strain, plastic strain
-figure(1)
-plot(MAT.comp.CDPtable(:,1), 'LineWidth', 2);
-hold on
-plot(MAT.comp.CDPtable(:,4), 'LineWidth', 2);
-hold on
-plot(MAT.comp.CDPtable(:,5), 'LineWidth', 2);
-hold on
-plot(MAT.comp.CDPtable(:,6), 'LineWidth', 2);
-legend('Strain', 'Elastic Strain', 'Inelastic strain', 'Plastic strain');
-ylim([0, inf]);
+% figure(1)
+% plot(MAT.comp.CDPtable(:,1), 'LineWidth', 2);
+% hold on
+% plot(MAT.comp.CDPtable(:,4), 'LineWidth', 2);
+% hold on
+% plot(MAT.comp.CDPtable(:,5), 'LineWidth', 2);
+% hold on
+% plot(MAT.comp.CDPtable(:,6), 'LineWidth', 2);
+% legend('Strain', 'Elastic Strain', 'Inelastic strain', 'Plastic strain');
+% ylim([0, inf]);
 CDPCPS = MAT.comp.CDPtable(:,6);
 CDPCPSCP = CDPCPS;
 sort(CDPCPSCP);
@@ -95,16 +95,16 @@ else
 end
 %% Check if Ascending tens
 % strain, stress, damage, elastic strain, inelastic strain, plastic strain
-figure(2)
-plot(MAT.tens.CDPtable(:,1), 'LineWidth', 2);
-hold on
-plot(MAT.tens.CDPtable(:,4), 'LineWidth', 2);
-hold on
-plot(MAT.tens.CDPtable(:,5), 'LineWidth', 2);
-hold on
-plot(MAT.tens.CDPtable(:,6), 'LineWidth', 2);
-legend('Strain', 'Elastic Strain', 'Inelastic strain', 'Plastic strain');
-ylim([0, inf]);
+% figure(2)
+% plot(MAT.tens.CDPtable(:,1), 'LineWidth', 2);
+% hold on
+% plot(MAT.tens.CDPtable(:,4), 'LineWidth', 2);
+% hold on
+% plot(MAT.tens.CDPtable(:,5), 'LineWidth', 2);
+% hold on
+% plot(MAT.tens.CDPtable(:,6), 'LineWidth', 2);
+% legend('Strain', 'Elastic Strain', 'Inelastic strain', 'Plastic strain');
+% ylim([0, inf]);
 CDPCPS = MAT.tens.CDPtable(:,6);
 CDPCPSCP = CDPCPS;
 sort(CDPCPSCP);

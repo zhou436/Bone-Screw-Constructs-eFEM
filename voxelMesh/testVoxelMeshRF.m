@@ -7,7 +7,7 @@ clc
 % MATLAB Central File Exchange. Last Access 202207
 tic
 %% load bone micro-CT
-folder_name = 'RF_20_R_VOI';
+folder_name = 'RF_20_R_VOIs';
 pixelSize = 11.953001/1000; % unit: mm, same as Abaqus unit
 scaleFac = 0.05; % scale factor of the model, 0.1 means 1/10 voxels in one dimension
 im = importImSeqs(folder_name);
@@ -15,9 +15,11 @@ im = importImSeqs(folder_name);
 load ScrewMesh.mat
 abaData.Screw.Elements = screwData.Elements;
 abaData.Screw.Nodes = screwData.Nodes;
-% move the screw a bit [-2,2,0]
-abaData.Screw.Nodes(:,2) = abaData.Screw.Nodes(:,2)-2;
-abaData.Screw.Nodes(:,3) = abaData.Screw.Nodes(:,3)+2;
+% move the screw a bit [-2,2,-4]
+screwMove = [-1, 1, -3];
+abaData.Screw.Nodes(:,2) = abaData.Screw.Nodes(:,2)+screwMove(1);
+abaData.Screw.Nodes(:,3) = abaData.Screw.Nodes(:,3)+screwMove(2);
+abaData.Screw.Nodes(:,4) = abaData.Screw.Nodes(:,4)+screwMove(3);
 clear screwData;
 %% rescale image size, for low resolution models
 imSca = imresize3(im, scaleFac);
@@ -62,12 +64,14 @@ toc
 %% Output Abaqus files
 abaData = abaInpData(abaData); % basic abaqus settings
 fileName = 'printInpTemp';     
-abaInp(fileName, abaData); % generate inp file
+nodeSide = abaInp(fileName, abaData); % generate inp file
 % toc
 %% plot mesh
 figure();
 plotMesh(abaData.Bone.Elements(:,2:9), nodeCoor, 1, '-'); % 'none' for no edges
 % volshow(imSca, 'ScaleFactors', [pixelSizeSca,pixelSizeSca,pixelSizeSca]);
+hold on;
+scatter3(nodeCoor(nodeSide,2), nodeCoor(nodeSide,3), nodeCoor(nodeSide,4));
 hold on
 % Load screw data and plot
 
@@ -78,7 +82,7 @@ zlabel('z');
 
 % xlim([0, inf]);
 % ylim([0, inf]);
-zlim([0, inf]);
+% zlim([0, inf]);
 
 % toc
 %% run abaqus simulation
