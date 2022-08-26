@@ -65,6 +65,7 @@ fileName = 'printInpTemp';
 abaInp(fileName, abaData); % generate inp file
 % toc
 %% plot mesh
+figure();
 plotMesh(abaData.Bone.Elements(:,2:9), nodeCoor, 1, '-'); % 'none' for no edges
 % volshow(imSca, 'ScaleFactors', [pixelSizeSca,pixelSizeSca,pixelSizeSca]);
 hold on
