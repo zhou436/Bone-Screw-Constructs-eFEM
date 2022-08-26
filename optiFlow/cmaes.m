@@ -52,11 +52,6 @@ while counteval < stopeval
                 penaltyValue = penaltyValue*exp(abs((arx(ii,k)-BC(ii,2)/normalPara(ii))));
             end
         end
-        % set yield and ultimate
-        if arx(3,k) < arx(2,k)
-            abaRunFlag = 0;
-%             arx(3,k) = arx(2,k);
-        end
 %         arfitness(k) = abaqusControl(arx(:,k)); % objective function call
         if abaRunFlag == 1  % if inside BC run abaqus
             arfitness(k) = feval(ObjFun, arx(:,k).*normalPara, counteval); % objective function call
