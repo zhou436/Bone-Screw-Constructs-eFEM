@@ -8,6 +8,9 @@ end
 if ~isfield(abaData.Bone.MAT, 'varCDPPlas')
     abaData.Bone.MAT.varCDPPlas = [40.0, 0.1, 1.16, 0.6667, 0.0]; % CDP plasticity table
 end
+if ~isfield(abaData.Bone.MAT, 'comp')
+    abaData.Bone.MAT.comp = struct();
+end
 if ~isfield(abaData.Bone.MAT.comp, 'sigmaY')
     abaData.Bone.MAT.comp.sigmaY = 100;         % compression yield stress [MPa]
 end
@@ -21,6 +24,9 @@ end
 abaData.Bone.MAT.comp.sigmaF = abaData.Bone.MAT.comp.sigmaU * 0.05;   % compression failure(deletion) stress [MPa]
 if ~isfield(abaData.Bone.MAT.comp, 'epsilonF')
     abaData.Bone.MAT.comp.epsilonF = 0.05;      % compression failure (deletion) strain [-]
+end
+if ~isfield(abaData.Bone.MAT, 'tens')
+    abaData.Bone.MAT.tens = struct();
 end
 if ~isfield(abaData.Bone.MAT.tens, 'sigmaY')
     abaData.Bone.MAT.tens.sigmaY = 50;          % tension yield stress [MPa]
@@ -80,7 +86,7 @@ abaData.Screw.eleDel = 'NO';
 % abaData.Screw.Part.partNum = 1;
 
 %% Abaqus parameters General
-abaData.mSFactor = '1e-05';
+abaData.mSFactor = '1e-06';
 if ~isfield(abaData, 'fricCoeef')
     abaData.fricCoeef = 0.30;
 end
