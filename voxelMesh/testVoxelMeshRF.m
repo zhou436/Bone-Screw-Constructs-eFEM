@@ -67,7 +67,7 @@ fileName = 'printInpTemp';
 nodeSide = abaInp(fileName, abaData); % generate inp file
 % toc
 %% plot mesh
-figure();
+screwBoneMesh = figure(1);
 plotMesh(abaData.Bone.Elements(:,2:9), nodeCoor, 1, '-'); % 'none' for no edges
 % volshow(imSca, 'ScaleFactors', [pixelSizeSca,pixelSizeSca,pixelSizeSca]);
 hold on;
@@ -79,6 +79,8 @@ plotMesh(abaData.Screw.Elements(:,2:11), abaData.Screw.Nodes, 1, 'none');
 xlabel('x');
 ylabel('y');
 zlabel('z');
+
+saveas(screwBoneMesh, 'screwBoneMesh.png');
 
 % xlim([0, inf]);
 % ylim([0, inf]);
