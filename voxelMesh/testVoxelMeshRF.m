@@ -12,7 +12,7 @@ pixelSize = 11.953001/1000; % unit: mm, same as Abaqus unit
 scaleFac = 0.05; % scale factor of the model, 0.1 means 1/10 voxels in one dimension
 im = importImSeqs(folder_name);
 %% load Screw mesh
-load ScrewMesh.mat
+load screwMesh.mat
 abaData.Screw.Elements = screwData.Elements;
 abaData.Screw.Nodes = screwData.Nodes;
 % move the screw a bit [-2,2,-4]
