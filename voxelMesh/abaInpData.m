@@ -78,17 +78,17 @@ abaData.Screw.MAT.matName = 'Screw';
 abaData.Screw.MAT.varDens = '4.50e-09';
 abaData.Screw.MAT.vaEL = [120000, 0.3]; % Young's modulus and Poisson's ratio
 
-abaData.Screw.eleType = 'C3D10'; % element type, for printInp_multiSect % C3D8R reduced integration point
+abaData.Screw.eleType = 'C3D8'; % element type, for printInp_multiSect % C3D8R reduced integration point
 abaData.Screw.partName = 'Screw';
-abaData.Screw.intePnts = 10;
+abaData.Screw.intePnts = 8;
 abaData.Screw.setNum = 2;
 abaData.Screw.eleDel = 'NO';
 % abaData.Screw.Part.partNum = 1;
 
 %% Abaqus parameters General
-abaData.mSFactor = '1e-06';
+abaData.mSFactor = '1e-04';
 if ~isfield(abaData, 'fricCoeef')
-    abaData.fricCoeef = 0.30;
+    abaData.fricCoeef = 0.01;
 end
 abaData.displacement = 2.5;
 % abaData.BC.BCTop.Name = 'ScrewTop';

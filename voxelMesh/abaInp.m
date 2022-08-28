@@ -1,4 +1,4 @@
-function nodeSide = abaInp(fileName, abaData)
+function nodeS = abaInp(fileName, abaData)
 % build Abaqus inp file
 % Convert 3d image to voxel-based 8-node mesh
 % input nodeCoor:  node list combined the nodes number and coordinates (x,y,z)
@@ -48,7 +48,7 @@ abaInpPart(fid, abaData.Bone);
 abaInpPart(fid, abaData.Screw);
 
 % Print Sets for BC and output
-nodeSide = abaInpSet(fid, abaData.Bone, abaData.Screw);
+nodeS = abaInpSet(fid, abaData.Bone, abaData.Screw);
 
 fprintf(fid,'*End Assembly\n');
 fprintf(fid, '** \n');
