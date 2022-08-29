@@ -55,13 +55,39 @@ nodeCoor(:, 4) = nodeCoor(:, 4) * dz;
 %% clean nodes
 % nodes are double, memory consumed!
 nodeCoorUni = nodeCoor(unique(reshape(eleCell{2,1}(:,3:10),[],1)),:);
-%%
 abaData.Bone.Nodes = nodeCoorUni;
 abaData.Bone.Elements = eleCell{2,1}(:,[1 3:10]);
 clear eleCell nodeCoorUni
 toc
 
+%% do boolean operation!
+addpath('C:\Users\zyj19\Desktop\Git\pullOutSimulation\meshBoolean');
+boneData = abaData.Bone;
+boneData.allNodes = nodeCoor;
+screwData = abaData.Screw;
+outerRadius = 2.0; % Outter Radius 2.0 mm
+innerRadius = 0.95; % Inner Radius 0.95 mm
+toDelEles = funMeshBoolean(boneData, screwData, outerRadius, innerRadius, screwMove);
+boneData.Elements(toDelEles,:) = [];
+% toc
+
+%%
+% screwBoneMeshVoxBoolean = figure();
+% plotMesh(boneData.Elements(:,2:9), boneData.allNodes, 1, '-');
+% hold on
+% plotMesh(screwData.Elements(:,2:11), screwData.Nodes, 1, 'none');
+% 
+% xlabel('x');
+% ylabel('y');
+% zlabel('z');
+% 
+% xlim([-1, inf]);
+% % ylim([1, inf]);
+% view(240,30);
+% 
+% % saveas(screwBoneMeshVoxBoolean, 'screwBoneMeshVoxBoolean.png');
 %% Output Abaqus files
+abaData.Bone.Elements(toDelEles,:) = [];
 abaData = abaInpData(abaData); % basic abaqus settings
 fileName = 'printInpTemp';     
 nodeS = abaInp(fileName, abaData); % generate inp file
@@ -71,7 +97,7 @@ screwBoneMesh = figure(1);
 plotMesh(abaData.Bone.Elements(:,2:9), nodeCoor, 1, '-'); % 'none' for no edges
 % volshow(imSca, 'ScaleFactors', [pixelSizeSca,pixelSizeSca,pixelSizeSca]);
 hold on;
-scatter3(nodeCoor(nodeS{1},2), nodeCoor(nodeS{1},3), nodeCoor(nodeS{1},4));
+scatter3(nodeCoor(nodeS,2), nodeCoor(nodeS,3), nodeCoor(nodeS,4));
 hold on
 % Load screw data and plot
 
@@ -87,33 +113,6 @@ xlim([-1, inf]);
 view(240,30);
 
 % saveas(screwBoneMesh, 'screwBoneMesh.png');
-%%
-addpath('C:\Users\zyj19\Desktop\Git\pullOutSimulation\meshBoolean');
-boneData = abaData.Bone;
-boneData.allNodes = nodeCoor;
-screwData = abaData.Screw;
-outerRadius = 2.0; % Outter Radius 2.0 mm
-innerRadius = 0.95; % Inner Radius 0.95 mm
-toDelEles = funMeshBoolean(boneData, screwData, outerRadius, innerRadius, screwMove);
-
-boneData.Elements(toDelEles,:) = [];
-
-% toc
-%%
-screwBoneMeshVoxBoolean = figure();
-plotMesh(boneData.Elements(:,2:9), boneData.allNodes, 1, '-');
-hold on
-plotMesh(screwData.Elements(:,2:11), screwData.Nodes, 1, 'none');
-
-xlabel('x');
-ylabel('y');
-zlabel('z');
-
-xlim([-1, inf]);
-% ylim([1, inf]);
-view(240,30);
-
-% saveas(screwBoneMeshVoxBoolean, 'screwBoneMeshVoxBoolean.png');
 %% run abaqus simulation
 a = "abaqus job=printInpTemp double cpus=24";
 

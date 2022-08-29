@@ -1,4 +1,4 @@
-function nodeSide = abaInpSet(fid, Bone, Screw)
+function nodeSide = abaInpSetTetScrew(fid, Bone, Screw)
 % to be optimized
 % Print Heading of element sets
 % set a tolerance

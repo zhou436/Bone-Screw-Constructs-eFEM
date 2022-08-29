@@ -48,7 +48,8 @@ abaInpPart(fid, abaData.Bone);
 abaInpPart(fid, abaData.Screw);
 
 % Print Sets for BC and output
-nodeS = abaInpSet(fid, abaData.Bone, abaData.Screw);
+% nodeS = abaInpSet(fid, abaData.Bone, abaData.Screw);
+nodeS = abaInpSetTetScrew(fid, abaData.Bone, abaData.Screw);
 
 fprintf(fid,'*End Assembly\n');
 fprintf(fid, '** \n');
