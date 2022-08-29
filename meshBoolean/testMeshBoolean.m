@@ -21,14 +21,13 @@ hold on
 plotMesh(screwData.Elements(:,2:11), screwData.Nodes, 0.5, 'none');
 xlim([-1, inf]);
 view(240,30);
-saveas(screwBoneMeshVox, 'screwBoneMeshVox.png');
+% saveas(screwBoneMeshVox, 'screwBoneMeshVox.png');
 %%
 outerRadius = 2.0; % Outter Radius 2.0 mm
 innerRadius = 0.95; % Inner Radius 0.95 mm
 toDelEles = funMeshBoolean(boneData, screwData, outerRadius, innerRadius, screwMove);
 
 boneData.Elements(toDelEles,:) = [];
-
 %%
 screwBoneMeshVoxBoolean = figure();
 plotMesh(boneData.Elements(:,2:9), boneData.allNodes, 1, '-');

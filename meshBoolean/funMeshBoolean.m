@@ -8,23 +8,14 @@ function [toDelEles] = funMeshBoolean(boneData, screwData, outerRadius, innerRad
 %% Screw geometry and preprocessing
 
 % loop over Hex mesh check if any point inner Outer diameter
-hexNodeNum = size(boneData.Nodes,1);
-hexNodeZone = [];
-for ii=1: 1: hexNodeNum
-    if ((boneData.Nodes(ii,2)-screwMove(1))^2+(boneData.Nodes(ii,3)-screwMove(2))^2) <= outerRadius^2
-        hexNodeZone = [hexNodeZone;boneData.Nodes(ii,:)];
-    end
-end
-hexNodeZoneNum = size(hexNodeZone,1);
+eleNodesBoolCoor = reshape(((boneData.allNodes(boneData.Elements(:,2:9),2)-screwMove(1)).^2+...
+    (boneData.allNodes(boneData.Elements(:,2:9),3)-screwMove(2)).^2), [], 8);
+eleNodesBool = (eleNodesBoolCoor <= outerRadius^2);
+[eleNodesBoolRow, ~] = find(eleNodesBool);
+ele2Check = unique(eleNodesBoolRow);
 
-ele2Check = [];
-for ii=1: 1: hexNodeZoneNum
-    [row,~] = find(boneData.Elements(:,2:9)==hexNodeZone(ii,1));
-    ele2Check = [ele2Check;row];
-end
-ele2Check = unique(ele2Check);
 hexEleZoneNode = boneData.Elements(ele2Check,:);
-
+% toc
 %% check if hex mesh points inside tet mesh elements
 ele2Del = [];
 parfor ii=1: size(hexEleZoneNode,1)
