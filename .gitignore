@@ -1,3 +1,14 @@
+# MATLAB
+*.asv
+
+# Images
+*.bmp
+*.txt
+
+# Abaqus
+*.bdf
+*.inp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
