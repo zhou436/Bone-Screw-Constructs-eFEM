@@ -88,10 +88,10 @@ mdb.models['contiOpti'].rootAssembly.translate(instanceList=('Screw-1', ),
     vector=(0.0, 0.0, 1.0))
 mdb.models['contiOpti'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
     minSizeFactor=0.1, regions=(
-    mdb.models['contiOpti'].rootAssembly.instances['Cube-1'], ), size=1.0)
+    mdb.models['contiOpti'].rootAssembly.instances['Screw-1'], ), size=0.5)
 mdb.models['contiOpti'].rootAssembly.seedPartInstance(deviationFactor=0.1, 
     minSizeFactor=0.1, regions=(
-    mdb.models['contiOpti'].rootAssembly.instances['Screw-1'], ), size=0.25)
+    mdb.models['contiOpti'].rootAssembly.instances['Cube-1'], ), size=0.2)
 mdb.models['contiOpti'].rootAssembly.setMeshControls(elemShape=TET, regions=
     mdb.models['contiOpti'].rootAssembly.instances['Screw-1'].cells.getSequenceFromMask(
     ('[#1 ]', ), ), technique=FREE)
@@ -104,4 +104,40 @@ mdb.models['contiOpti'].rootAssembly.setElementType(elemTypes=(ElemType(
 mdb.models['contiOpti'].rootAssembly.generateMesh(regions=(
     mdb.models['contiOpti'].rootAssembly.instances['Cube-1'], 
     mdb.models['contiOpti'].rootAssembly.instances['Screw-1']))
-# Save by zyj19 on 2022_08_08-08.03.12; build 2020 2019_09_13-19.49.31 163176
+mdb.models['contiOpti'].rootAssembly.setElementType(elemTypes=(ElemType(
+    elemCode=UNKNOWN_HEX, elemLibrary=EXPLICIT), ElemType(
+    elemCode=UNKNOWN_WEDGE, elemLibrary=EXPLICIT), ElemType(elemCode=C3D10M, 
+    elemLibrary=EXPLICIT, secondOrderAccuracy=OFF, distortionControl=DEFAULT)), 
+    regions=(
+    mdb.models['contiOpti'].rootAssembly.instances['Screw-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), ))
+mdb.models['contiOpti'].rootAssembly.setElementType(elemTypes=(ElemType(
+    elemCode=C3D8, elemLibrary=EXPLICIT, secondOrderAccuracy=OFF, 
+    distortionControl=DEFAULT), ElemType(elemCode=C3D6, elemLibrary=EXPLICIT), 
+    ElemType(elemCode=C3D4, elemLibrary=EXPLICIT)), regions=(
+    mdb.models['contiOpti'].rootAssembly.instances['Cube-1'].cells.getSequenceFromMask(
+    ('[#1 ]', ), ), ))
+mdb.Job(activateLoadBalancing=False, atTime=None, contactPrint=OFF, 
+    description='', echoPrint=OFF, explicitPrecision=SINGLE, 
+    getMemoryFromAnalysis=True, historyPrint=OFF, memory=90, memoryUnits=
+    PERCENTAGE, model='contiOpti', modelPrint=OFF, multiprocessingMode=DEFAULT, 
+    name='Job-1', nodalOutputPrecision=SINGLE, numCpus=1, numDomains=1, 
+    numGPUs=0, parallelizationMethodExplicit=DOMAIN, queue=None, resultsFormat=
+    ODB, scratch='', type=ANALYSIS, userSubroutine='', waitHours=0, 
+    waitMinutes=0)
+# Save by zyj19 on 2022_08_15-14.31.44; build 2020 2019_09_13-19.49.31 163176
+from part import *
+from material import *
+from section import *
+from assembly import *
+from step import *
+from interaction import *
+from load import *
+from mesh import *
+from optimization import *
+from job import *
+from sketch import *
+from visualization import *
+from connectorBehavior import *
+mdb.saveAs(pathName='C:/Users/zyj19/Desktop/Git/pullOutSimulation/meshBoolean/meshBoolean.cae')
+# Save by zyj19 on 2022_08_15-14.38.15; build 2020 2019_09_13-19.49.31 163176

@@ -1,1 +1,10 @@
+# MATLAB
+*.asv
+
+# Images
 *.bmp
+*.txt
+
+# Abaqus
+*.bdf
+*.inp
