@@ -29,7 +29,7 @@ elseif size(elements,2) == 10 || size(elements,2) == 4
             ];
     end
 end
-trisurf(triSurfs,vertCoor(:,2),vertCoor(:,3),vertCoor(:,4),'FaceAlpha',transPara,'LineStyle',lineStyle);
+trisurf(triSurfs,vertCoor(:,2),vertCoor(:,3),vertCoor(:,4),'FaceAlpha',transPara,'LineStyle',lineStyle,'FaceColor',[0.85 0.85 0.85]);
 axis equal
 % toc
 
