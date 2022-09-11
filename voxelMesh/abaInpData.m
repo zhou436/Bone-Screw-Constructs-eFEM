@@ -86,11 +86,11 @@ abaData.Screw.eleDel = 'NO';
 % abaData.Screw.Part.partNum = 1;
 
 %% Abaqus parameters General
-abaData.mSFactor = '1e-04';
+abaData.mSFactor = '5e-06';
 if ~isfield(abaData, 'fricCoeef')
     abaData.fricCoeef = 0.01;
 end
-abaData.displacement = 2.5;
+abaData.displacement = 1.0;
 % abaData.BC.BCTop.Name = 'ScrewTop';
 abaData.Parts = {'Screw', 'Bone'};
 
