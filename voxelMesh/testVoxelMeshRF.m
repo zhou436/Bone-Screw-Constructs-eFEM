@@ -9,7 +9,7 @@ tic
 %% load bone micro-CT
 folder_name = 'RF_20_R_VOIs';
 pixelSize = 11.953001/1000; % unit: mm, same as Abaqus unit
-scaleFac = 0.25; % scale factor of the model, 0.1 means 1/10 voxels in one dimension
+scaleFac = 0.05; % scale factor of the model, 0.1 means 1/10 voxels in one dimension
 im = importImSeqs(folder_name);
 %% load Screw mesh
 load screwMesh.mat
