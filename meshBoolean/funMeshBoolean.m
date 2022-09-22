@@ -4,7 +4,8 @@ function [toDelEles] = funMeshBoolean(boneData, screwData, outerRadius, innerRad
 % input screwData:          Screw data structure
 % input outerRadius:        Outer radius of screw
 % input innerRadius:        Screw movement due to insertion position
-
+zCoor = -1; %Lets say -1
+disCon = 0.30;
 %% screw geometry and preprocessing
 % loop over Hex mesh check if any point inner Outer diameter
 eleNodesBoolDist = reshape(((boneData.allNodes(boneData.Elements(:,2:9),2)-screwMove(1)).^2+...
@@ -14,28 +15,40 @@ eleNOUTBool = (eleNodesBoolDist <= outerRadius^2);
 ele2CheckOUT = unique(eleNOUTBoolRow);
 % hexEleZoneNode = boneData.Elements(ele2Check,:);
 
-%% check if hex mesh in inner diameter range & higher than a value (TO DELETE)
+%% check if hex mesh in inner diameter range & higher than a value (TO DELETE).
 eleNINNBool = (eleNodesBoolDist <= innerRadius^2);
 [eleNINNBoolRow, ~] = find(eleNINNBool);
 ele2CheckINN = unique(eleNINNBoolRow);
-% ele2Check = unique([ele2CheckOUT;ele2CheckINN]);
 
-ele2Check = setdiff(ele2CheckOUT,ele2CheckINN);
-hexEleZoneNode = boneData.Elements(ele2Check,:);
+eleCoorZ = reshape(boneData.allNodes(boneData.Elements(:,2:9),2),[],8);
+% Z coordinate higher to be deleted
+eleNUPPBool = (eleCoorZ >= zCoor);
+[eleNUPPBoolRow, ~] = find(eleNUPPBool);
+ele2CheckUPP = unique(eleNUPPBoolRow);
+
+% Outter minus (inner and upper)
+ele2Check = setdiff(ele2CheckOUT,intersect(ele2CheckINN,ele2CheckUPP));
 
 %% Prescan if hex mesh distance to tet mesh (critical distance setting)
-% eleNBCoor = [mean(reshape(boneData.allNodes(boneData.Elements(:,2:9),2),[],8),2),...
-%     mean(reshape(boneData.allNodes(boneData.Elements(:,2:9),3),[],8),2),...
-%     mean(reshape(boneData.allNodes(boneData.Elements(:,2:9),4),[],8),2)...
-%     ];
-% eleNBCoorCheck = eleNBCoor(ele2Check,:);
-% eleNSCoor = [mean(reshape(screwData.Nodes(screwData.Elements(:,2:5),2),[],4),2),...
-%     mean(reshape(screwData.Nodes(screwData.Elements(:,2:5),3),[],4),2),...
-%     mean(reshape(screwData.Nodes(screwData.Elements(:,2:5),4),[],4),2)...
-%     ];
+eleNBCoor = [mean(reshape(boneData.allNodes(boneData.Elements(:,2:9),2),[],8),2),...
+    mean(reshape(boneData.allNodes(boneData.Elements(:,2:9),3),[],8),2),...
+    mean(reshape(boneData.allNodes(boneData.Elements(:,2:9),4),[],8),2)...
+    ];
+eleNBCoorCheck = eleNBCoor(ele2Check,:);
+eleNSCoor = [mean(reshape(screwData.Nodes(screwData.Elements(:,2:5),2),[],4),2),...
+    mean(reshape(screwData.Nodes(screwData.Elements(:,2:5),3),[],4),2),...
+    mean(reshape(screwData.Nodes(screwData.Elements(:,2:5),4),[],4),2)...
+    ];
 % 
-% DistMatrix = 
+DistMatrix = permute(sum((repmat(eleNBCoorCheck,1,1,size(eleNSCoor,1))-...
+    permute(repmat(eleNSCoor,1,1,size(eleNBCoorCheck,1)),[3,2,1])).^2,2),[1,3,2]);
+DistMatrix = DistMatrix(:,:,1);
+DistMatrixMin = min(DistMatrix,[],2);
+ele2CheckDis = (DistMatrixMin <= disCon);
 
+ele2Check = ele2Check(ele2CheckDis,:);
+%% elements in the zone to be checked
+hexEleZoneNode = boneData.Elements(ele2Check,:);
 %% check if hex mesh points inside tet mesh elements
 ele2Del = [];
 parfor ii=1: size(hexEleZoneNode,1)
@@ -77,5 +90,5 @@ hold off
 saveas(screwBoneMeshDel, 'screwBoneMeshDel.png');
 %% 
 toDelEles = ele2Del(:,1);
-
+toc
 end
