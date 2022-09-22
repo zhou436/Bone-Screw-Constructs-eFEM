@@ -41,12 +41,14 @@ eleNSCoor = [mean(reshape(screwData.Nodes(screwData.Elements(:,2:5),2),[],4),2),
     mean(reshape(screwData.Nodes(screwData.Elements(:,2:5),3),[],4),2),...
     mean(reshape(screwData.Nodes(screwData.Elements(:,2:5),4),[],4),2)...
     ];
-% 
+% if size(eleNBCoorCheck,1) >= 1e5
 DistMatrix = permute(sum((repmat(eleNBCoorCheck,1,1,size(eleNSCoor,1))-...
     permute(repmat(eleNSCoor,1,1,size(eleNBCoorCheck,1)),[3,2,1])).^2,2),[1,3,2]);
 DistMatrix = DistMatrix(:,:,1);
 DistMatrixMin = min(DistMatrix,[],2);
 ele2CheckDis = (DistMatrixMin <= disCon);
+
+clear DistMatrix; clear DistMatrixMin;
 
 ele2Check = ele2Check(ele2CheckDis,:);
 %% elements in the zone to be checked
