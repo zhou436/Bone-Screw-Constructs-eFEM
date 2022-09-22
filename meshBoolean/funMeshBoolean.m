@@ -5,7 +5,7 @@ function [toDelEles] = funMeshBoolean(boneData, screwData, outerRadius, innerRad
 % input outerRadius:        Outer radius of screw
 % input innerRadius:        Screw movement due to insertion position
 zCoor = -1; %Lets say -1
-disCon = 0.30;
+disCon = 0.50;
 %% screw geometry and preprocessing
 % loop over Hex mesh check if any point inner Outer diameter
 eleNodesBoolDist = reshape(((boneData.allNodes(boneData.Elements(:,2:9),2)-screwMove(1)).^2+...
@@ -15,19 +15,21 @@ eleNOUTBool = (eleNodesBoolDist <= outerRadius^2);
 ele2CheckOUT = unique(eleNOUTBoolRow);
 % hexEleZoneNode = boneData.Elements(ele2Check,:);
 
-%% check if hex mesh in inner diameter range & higher than a value (TO DELETE).
+%% check if hex mesh in inner diameter range && higher than a value (TO DELETE).
 eleNINNBool = (eleNodesBoolDist <= innerRadius^2);
 [eleNINNBoolRow, ~] = find(eleNINNBool);
-ele2CheckINN = unique(eleNINNBoolRow);
+ele2DELINN = unique(eleNINNBoolRow);
 
-eleCoorZ = reshape(boneData.allNodes(boneData.Elements(:,2:9),2),[],8);
+eleCoorZ = reshape(boneData.allNodes(boneData.Elements(:,2:9),4),[],8);
 % Z coordinate higher to be deleted
 eleNUPPBool = (eleCoorZ >= zCoor);
 [eleNUPPBoolRow, ~] = find(eleNUPPBool);
-ele2CheckUPP = unique(eleNUPPBoolRow);
-
+ele2DELUPP = unique(eleNUPPBoolRow);
+% elements to be deleted
+ele2Del = intersect(ele2DELINN,ele2DELUPP);
+ele2DelMat = boneData.Elements(ele2Del,:);
 % Outter minus (inner and upper)
-ele2Check = setdiff(ele2CheckOUT,intersect(ele2CheckINN,ele2CheckUPP));
+ele2Check = setdiff(ele2CheckOUT,ele2Del);
 
 %% Prescan if hex mesh distance to tet mesh (critical distance setting)
 eleNBCoor = [mean(reshape(boneData.allNodes(boneData.Elements(:,2:9),2),[],8),2),...
@@ -76,7 +78,7 @@ parfor ii=1: size(hexEleZoneNode,1)
         end
     end
 end
-ele2Del = hexEleZoneNode(ele2Del,:);
+ele2DelMat = [ele2DelMat;hexEleZoneNode(ele2Del,:)];
 %% plot the delete meshes
 screwBoneMeshDel = figure();
 plotMesh(screwData.Elements(:,2:5), screwData.Nodes, 1.0, '-');
@@ -84,11 +86,11 @@ hold on
 plotMesh(hexEleZoneNode(:,2:9), boneData.allNodes, 1.0, 'none');
 hold on
 transPara = 0.5;
-plotMesh(ele2Del(:,2:9), boneData.allNodes, transPara, '-');
+plotMesh(ele2DelMat(:,2:9), boneData.allNodes, transPara, '-');
 axis equal
 hold off
 saveas(screwBoneMeshDel, 'screwBoneMeshDel.png');
 %% 
-toDelEles = ele2Del(:,1);
+toDelEles = ele2DelMat(:,1);
 toc
 end
