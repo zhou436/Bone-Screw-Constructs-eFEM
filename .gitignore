@@ -7,4 +7,4 @@
 
 # Abaqus
 *.bdf
-*.inp
+#*.inp
