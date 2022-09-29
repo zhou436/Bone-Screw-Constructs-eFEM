@@ -9,7 +9,7 @@ tic
 %% load bone micro-CT
 folder_name = 'RF_20_R_VOIs';
 pixelSize = 11.953001/1000; % unit: mm, same as Abaqus unit
-scaleFac = 0.10; % scale factor of the model, 0.1 means 1/10 voxels in one dimension
+scaleFac = 0.20; % scale factor of the model, 0.1 means 1/10 voxels in one dimension
 im = importImSeqs(folder_name);
 %% load Screw mesh
 load screwMesh.mat
@@ -93,7 +93,7 @@ fileName = 'printInpTemp';
 nodeS = abaInp(fileName, abaData); % generate inp file
 toc
 %% plot mesh
-screwBoneMesh = figure(1);
+screwBoneMesh = figure(5);
 plotMesh(abaData.Bone.Elements(:,2:9), nodeCoor, 1, '-'); % 'none' for no edges
 % volshow(imSca, 'ScaleFactors', [pixelSizeSca,pixelSizeSca,pixelSizeSca]);
 hold on;

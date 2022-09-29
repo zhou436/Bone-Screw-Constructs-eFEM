@@ -3,7 +3,7 @@ function abaData = abaInpData(abaData)
 abaData.Bone.MAT.matName = 'Bone';
 abaData.Bone.MAT.varDens = '1.89e-09';
 if ~isfield(abaData.Bone.MAT, 'vaEL')
-    abaData.Bone.MAT.vaEL = [10000, 0.3]; % Young's modulus and Poisson's ratio
+    abaData.Bone.MAT.vaEL = [18000, 0.3]; % Young's modulus and Poisson's ratio
 end
 if ~isfield(abaData.Bone.MAT, 'varCDPPlas')
     abaData.Bone.MAT.varCDPPlas = [40.0, 0.1, 1.16, 0.6667, 0.0]; % CDP plasticity table
@@ -15,7 +15,7 @@ if ~isfield(abaData.Bone.MAT.comp, 'sigmaY')
     abaData.Bone.MAT.comp.sigmaY = 150;         % compression yield stress [MPa]
 end
 if ~isfield(abaData.Bone.MAT.comp, 'sigmaUYD')
-    abaData.Bone.MAT.comp.sigmaUYD = 50;        % compression ultimate stress [MPa]
+    abaData.Bone.MAT.comp.sigmaUYD = 50;        % compression ultimate-yield stress [MPa]
 end
 abaData.Bone.MAT.comp.sigmaU = abaData.Bone.MAT.comp.sigmaY + abaData.Bone.MAT.comp.sigmaUYD;
 if ~isfield(abaData.Bone.MAT.comp, 'epsilonU')
@@ -86,11 +86,11 @@ abaData.Screw.eleDel = 'NO';
 % abaData.Screw.Part.partNum = 1;
 
 %% Abaqus parameters General
-abaData.mSFactor = '5e-06';
+abaData.mSFactor = '2.5e-06';
 if ~isfield(abaData, 'fricCoeef')
-    abaData.fricCoeef = 0.01;
+    abaData.fricCoeef = 0.30;
 end
-abaData.displacement = 1.0;
+abaData.displacement = 0.5;
 % abaData.BC.BCTop.Name = 'ScrewTop';
 abaData.Parts = {'Screw', 'Bone'};
 
