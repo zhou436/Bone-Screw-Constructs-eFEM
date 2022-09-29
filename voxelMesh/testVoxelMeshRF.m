@@ -9,7 +9,7 @@ tic
 %% load bone micro-CT
 folder_name = 'RF_20_R_VOIs';
 pixelSize = 11.953001/1000; % unit: mm, same as Abaqus unit
-scaleFac = 0.1; % scale factor of the model, 0.1 means 1/10 voxels in one dimension
+scaleFac = 0.20; % scale factor of the model, 0.1 means 1/10 voxels in one dimension
 im = importImSeqs(folder_name);
 %% load Screw mesh
 load screwMesh.mat
@@ -55,38 +55,64 @@ nodeCoor(:, 4) = nodeCoor(:, 4) * dz;
 %% clean nodes
 % nodes are double, memory consumed!
 nodeCoorUni = nodeCoor(unique(reshape(eleCell{2,1}(:,3:10),[],1)),:);
-%%
 abaData.Bone.Nodes = nodeCoorUni;
 abaData.Bone.Elements = eleCell{2,1}(:,[1 3:10]);
 clear eleCell nodeCoorUni
 toc
 
+%% do boolean operation!
+addpath('C:\Users\zyj19\Desktop\Git\pullOutSimulation\meshBoolean');
+boneData = abaData.Bone;
+boneData.allNodes = nodeCoor;
+screwData = abaData.Screw;
+outerRadius = 2.0; % Outter Radius 2.0 mm
+innerRadius = 0.95; % Inner Radius 0.95 mm
+toDelEles = funMeshBoolean(boneData, screwData, outerRadius, innerRadius, screwMove);
+boneData.Elements(toDelEles,:) = [];
+% toc
+
+%%
+% screwBoneMeshVoxBoolean = figure();
+% plotMesh(boneData.Elements(:,2:9), boneData.allNodes, 1, '-');
+% hold on
+% plotMesh(screwData.Elements(:,2:11), screwData.Nodes, 1, 'none');
+% 
+% xlabel('x');
+% ylabel('y');
+% zlabel('z');
+% 
+% xlim([-1, inf]);
+% % ylim([1, inf]);
+% view(240,30);
+% 
+% % saveas(screwBoneMeshVoxBoolean, 'screwBoneMeshVoxBoolean.png');
 %% Output Abaqus files
+abaData.Bone.Elements(toDelEles,:) = [];
 abaData = abaInpData(abaData); % basic abaqus settings
 fileName = 'printInpTemp';     
-nodeSide = abaInp(fileName, abaData); % generate inp file
-% toc
+nodeS = abaInp(fileName, abaData); % generate inp file
+toc
 %% plot mesh
-screwBoneMesh = figure(1);
+screwBoneMesh = figure(5);
 plotMesh(abaData.Bone.Elements(:,2:9), nodeCoor, 1, '-'); % 'none' for no edges
 % volshow(imSca, 'ScaleFactors', [pixelSizeSca,pixelSizeSca,pixelSizeSca]);
 hold on;
-scatter3(nodeCoor(nodeSide,2), nodeCoor(nodeSide,3), nodeCoor(nodeSide,4));
+scatter3(nodeCoor(nodeS,2), nodeCoor(nodeS,3), nodeCoor(nodeS,4));
 hold on
 % Load screw data and plot
 
-plotMesh(abaData.Screw.Elements(:,2:11), abaData.Screw.Nodes, 1, 'none');
+plotMesh(abaData.Screw.Elements(:,2:11), abaData.Screw.Nodes, 0.5, 'none');
+
+% plot labels
 xlabel('x');
 ylabel('y');
 zlabel('z');
 
-saveas(screwBoneMesh, 'screwBoneMesh.png');
-
-% xlim([0, inf]);
+xlim([-1, inf]);
 % ylim([0, inf]);
-% zlim([0, inf]);
+view(240,30);
 
-% toc
+% saveas(screwBoneMesh, 'screwBoneMesh.png');
 %% run abaqus simulation
 a = "abaqus job=printInpTemp double cpus=24";
 

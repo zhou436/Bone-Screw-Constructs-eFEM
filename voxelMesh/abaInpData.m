@@ -3,7 +3,7 @@ function abaData = abaInpData(abaData)
 abaData.Bone.MAT.matName = 'Bone';
 abaData.Bone.MAT.varDens = '1.89e-09';
 if ~isfield(abaData.Bone.MAT, 'vaEL')
-    abaData.Bone.MAT.vaEL = [10000, 0.3]; % Young's modulus and Poisson's ratio
+    abaData.Bone.MAT.vaEL = [18000, 0.3]; % Young's modulus and Poisson's ratio
 end
 if ~isfield(abaData.Bone.MAT, 'varCDPPlas')
     abaData.Bone.MAT.varCDPPlas = [40.0, 0.1, 1.16, 0.6667, 0.0]; % CDP plasticity table
@@ -12,28 +12,28 @@ if ~isfield(abaData.Bone.MAT, 'comp')
     abaData.Bone.MAT.comp = struct();
 end
 if ~isfield(abaData.Bone.MAT.comp, 'sigmaY')
-    abaData.Bone.MAT.comp.sigmaY = 100;         % compression yield stress [MPa]
+    abaData.Bone.MAT.comp.sigmaY = 150;         % compression yield stress [MPa]
 end
 if ~isfield(abaData.Bone.MAT.comp, 'sigmaUYD')
-    abaData.Bone.MAT.comp.sigmaUYD = 20;        % compression ultimate stress [MPa]
+    abaData.Bone.MAT.comp.sigmaUYD = 50;        % compression ultimate-yield stress [MPa]
 end
 abaData.Bone.MAT.comp.sigmaU = abaData.Bone.MAT.comp.sigmaY + abaData.Bone.MAT.comp.sigmaUYD;
 if ~isfield(abaData.Bone.MAT.comp, 'epsilonU')
-    abaData.Bone.MAT.comp.epsilonU = 0.02;      % compression ultimate strain [-]
+    abaData.Bone.MAT.comp.epsilonU = 0.05;      % compression ultimate strain [-]
 end
 abaData.Bone.MAT.comp.sigmaF = abaData.Bone.MAT.comp.sigmaU * 0.05;   % compression failure(deletion) stress [MPa]
 if ~isfield(abaData.Bone.MAT.comp, 'epsilonF')
-    abaData.Bone.MAT.comp.epsilonF = 0.05;      % compression failure (deletion) strain [-]
+    abaData.Bone.MAT.comp.epsilonF = 0.10;      % compression failure (deletion) strain [-]
 end
 if ~isfield(abaData.Bone.MAT, 'tens')
     abaData.Bone.MAT.tens = struct();
 end
 if ~isfield(abaData.Bone.MAT.tens, 'sigmaY')
-    abaData.Bone.MAT.tens.sigmaY = 50;          % tension yield stress [MPa]
+    abaData.Bone.MAT.tens.sigmaY = 100;          % tension yield stress [MPa]
 end
 abaData.Bone.MAT.tens.sigmaF = abaData.Bone.MAT.tens.sigmaY * 0.05;     % tension failure(deletion) stress [MPa]
 if ~isfield(abaData.Bone.MAT.tens, 'epsilonF')
-    abaData.Bone.MAT.tens.epsilonF = 0.01;      % tension failure (deletion) strain [-]
+    abaData.Bone.MAT.tens.epsilonF = 0.02;      % tension failure (deletion) strain [-]
 end
 % create CDP tables [strain, stress, damage, elastic strain, inelastic strain, plastic strain]
 abaData.Bone.MAT = funCDPGen(abaData.Bone.MAT);
@@ -78,19 +78,19 @@ abaData.Screw.MAT.matName = 'Screw';
 abaData.Screw.MAT.varDens = '4.50e-09';
 abaData.Screw.MAT.vaEL = [120000, 0.3]; % Young's modulus and Poisson's ratio
 
-abaData.Screw.eleType = 'C3D8'; % element type, for printInp_multiSect % C3D8R reduced integration point
+abaData.Screw.eleType = 'C3D10'; % element type, for printInp_multiSect % C3D8R reduced integration point
 abaData.Screw.partName = 'Screw';
-abaData.Screw.intePnts = 8;
+abaData.Screw.intePnts = 10;
 abaData.Screw.setNum = 2;
 abaData.Screw.eleDel = 'NO';
 % abaData.Screw.Part.partNum = 1;
 
 %% Abaqus parameters General
-abaData.mSFactor = '1e-04';
+abaData.mSFactor = '2.5e-06';
 if ~isfield(abaData, 'fricCoeef')
-    abaData.fricCoeef = 0.01;
+    abaData.fricCoeef = 0.30;
 end
-abaData.displacement = 2.5;
+abaData.displacement = 0.5;
 % abaData.BC.BCTop.Name = 'ScrewTop';
 abaData.Parts = {'Screw', 'Bone'};
 

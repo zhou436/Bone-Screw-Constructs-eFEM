@@ -1,4 +1,4 @@
-function [xmin,ymin]=cmaes(nVar, iniVal, BC, sigma, stopfitness, stopeval, penaltyValBas, normalPara, ObjFun)   % (mu/mu_w, lambda)-CMA-ES
+function [xmin,ymin]=cmaes(nVar, iniVal, BC, sigma, stopfitness, stopeval, normalPara, ObjFun)   % (mu/mu_w, lambda)-CMA-ES
 % --------------------  Initialization --------------------------------
 % User defined input parameters (need to be edited)
 N = nVar;
@@ -34,8 +34,6 @@ chiN=N^0.5*(1-1/(4*N)+1/(21*N^2));  % expectation of
 % -------------------- Generation Loop --------------------------------
 counteval = 1;  % the next 40 lines contain the 20 lines of interesting code
 genCount = 1;
-abaRunFlag = 1;
-penaltyValue = penaltyValBas;
 while counteval < stopeval
     % Generate and evaluate lambda offspring
     for k=1:lambda
@@ -44,25 +42,15 @@ while counteval < stopeval
         % set BC
         for ii=1: 1: nVar
             if arx(ii,k)*normalPara(ii) < BC(ii,1)
-                abaRunFlag = 0;
-                penaltyValue = penaltyValue*exp(abs((arx(ii,k)-BC(ii,1)/normalPara(ii))));
+                arx(ii,k) = BC(ii,1)/normalPara(ii);
             end
             if arx(ii,k)*normalPara(ii) > BC(ii,2)
-                abaRunFlag = 0;
-                penaltyValue = penaltyValue*exp(abs((arx(ii,k)-BC(ii,2)/normalPara(ii))));
+                arx(ii,k) = BC(ii,2)/normalPara(ii);
             end
         end
-%         arfitness(k) = abaqusControl(arx(:,k)); % objective function call
-        if abaRunFlag == 1  % if inside BC run abaqus
-            arfitness(k) = feval(ObjFun, arx(:,k).*normalPara, counteval); % objective function call
-            writematrix([arx(:,k)', arfitness(k)], './dataOutput/dataMatrixOutput.xlsx', 'WriteMode', 'append');
-        else                % if outside BC, return a large obj
-            arfitness(k) = penaltyValue;
-            penaltyValue = penaltyValBas;
-            writematrix([arx(:,k)', arfitness(k)], './dataOutput/dataMatrixOutput.xlsx', 'WriteMode', 'append');
-            abaRunFlag = 1;
-            stopeval = stopeval+1;
-        end
+
+        arfitness(k) = feval(ObjFun, arx(:,k).*normalPara, counteval); % objective function call
+        writematrix([arx(:,k)', arfitness(k)], './dataOutput/dataMatrixOutput.xlsx', 'WriteMode', 'append');
         counteval = counteval+1;
         disp('Currently finished calculation:');
         disp(counteval);
