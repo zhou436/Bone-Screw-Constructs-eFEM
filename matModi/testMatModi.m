@@ -4,16 +4,19 @@ clc
 %% Example 01
 % figure(1)
 % clf
-fileName = 'Job-Boolean.inp';
-data = abaqusInpRead(fileName);
-%% plot nodes
-scatter3(data.Nodes{1,1}(:,2),data.Nodes{1,1}(:,3),data.Nodes{1,1}(:,4));
-axis equal
-hold on
-scatter3(data.Nodes{1,2}(:,2),data.Nodes{1,2}(:,3),data.Nodes{1,2}(:,4));
-axis equal
+fileName = 'matCardTest';
+abaData = [];
+abaData = abaInpData(abaData); % basic abaqus settings
+fid=fopen(sprintf('%s.inp',fileName),'wW');
+
+%%
+% Print Material properties (CDP)
+abaInpMatCDP(fid, abaData.Bone.MAT);
+
+% Print Material properties (Linear Elastic)
+abaInpMatLE(fid, abaData.Screw.MAT);
 
 
-
-
+fclose(fid);
+disp('Check the inp file!');
 
