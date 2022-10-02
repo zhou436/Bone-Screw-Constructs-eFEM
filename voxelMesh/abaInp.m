@@ -63,13 +63,20 @@ abaInpEleCon(fid, abaData.Screw);
 abaInpAmp(fid);
 
 % Print Material properties (CDP)
-abaInpMatCDP(fid, abaData.Bone.MAT);
+% abaInpMatCDP(fid, abaData.Bone.MAT);
+fNCDP = 'matCDP';
+fprintf(fid,sprintf('*INCLUDE, INPUT=%s.inp\n',fNCDP));
+abaInpMatCDP(abaData.Bone.MAT, fNCDP);
 
 % Print Material properties (Linear Elastic)
-abaInpMatLE(fid, abaData.Screw.MAT);
+fNLE = 'matLE';
+fprintf(fid,sprintf('*INCLUDE, INPUT=%s.inp\n',fNLE));
+abaInpMatLE(abaData.Screw.MAT, fNLE);
 
 % Print interactions
-abaInpInteraction(fid, abaData.fricCoeef);
+fNinter = 'interFric';
+fprintf(fid,sprintf('*INCLUDE, INPUT=%s.inp\n',fNinter));
+abaInpInteraction(abaData.fricCoeef, fNinter);
 
 % Print Step
 abaInpStep(fid, abaData.mSFactor);

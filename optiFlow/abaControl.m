@@ -1,4 +1,4 @@
-function abaControl(arx,counteval)
+function expNumDiff = abaControl(arx,counteval)
 % clear all
 % close all
 % clc
@@ -24,47 +24,17 @@ abaData.Bone.MAT.tens.epsilonF = arx(7);        % tension failure (deletion) str
 abaData.fricCoeef = arx(8);                     % friction coeefficient 
 %%
 addpath('./../voxelMesh');
-%% load bone mesh
-load boneMesh.mat
-abaData.Bone.Nodes = boneData.Nodes;
-abaData.Bone.Elements = boneData.Elements;
-nodeCoor = boneData.allNodes;
-clear boneData
-
-%% load screw mesh
-load screwMesh.mat
-abaData.Screw.Elements = screwData.Elements;
-abaData.Screw.Nodes = screwData.Nodes;
-% move the screw a bit [-2,2,-4]
-screwMove = [-1, 1, -3];
-abaData.Screw.Nodes(:,2) = abaData.Screw.Nodes(:,2)+screwMove(1);
-abaData.Screw.Nodes(:,3) = abaData.Screw.Nodes(:,3)+screwMove(2);
-abaData.Screw.Nodes(:,4) = abaData.Screw.Nodes(:,4)+screwMove(3);
-clear screwData;
-
-%% Output Abaqus files
+%% Output Abaqus input file
 abaData = abaInpData(abaData); % basic abaqus settings
-fileName = 'printInpTemp';     
-nodeSide = abaInp(fileName, abaData); % generate inp file
-% toc
-%% plot mesh
-screwBoneMesh = figure(1);
-plotMesh(abaData.Bone.Elements(:,2:9), nodeCoor, 1, '-'); % 'none' for no edges
-% volshow(imSca, 'ScaleFactors', [pixelSizeSca,pixelSizeSca,pixelSizeSca]);
-hold on;
-scatter3(nodeCoor(nodeSide,2), nodeCoor(nodeSide,3), nodeCoor(nodeSide,4));
-hold on
-% Load screw data and plot
-
-plotMesh(abaData.Screw.Elements(:,2:11), abaData.Screw.Nodes, 1, 'none');
-xlabel('x');
-ylabel('y');
-zlabel('z');
-
-saveas(screwBoneMesh, 'screwBoneMesh.png');
-% xlim([0, inf]);
-% ylim([0, inf]);
-% zlim([0, inf]);
+% abaInpMatCDP(fid, abaData.Bone.MAT);
+fNCDP = 'matCDP';
+fprintf(fid,sprintf('*INCLUDE, INPUT=%s.inp\n',fNCDP));
+abaInpMatCDP(abaData.Bone.MAT, fNCDP);
 %% run abaqus simulation
-a = "abaqus job=printInpTemp double cpus=24";
+system('DEL /Q Job-1.lck');
+disp('EMod, yieldStress, hardStress, ultimStrain, dispAFail, fricCoe');
+disp([EMod, yieldStress, hardStress, ultimStrain, dispAFail, fricCoe]);
+system('abaqus job=printInpTemp double cpus=24');
+%% read simulation results and output objective value
+[expNumDiff] = readAbaqusData(counteval);
 end
