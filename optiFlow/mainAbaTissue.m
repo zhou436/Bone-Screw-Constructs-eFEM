@@ -19,11 +19,11 @@ BC = [...
     4e3,25e3;...    % Young's modulus
     50,200;...      % compression yield stress [MPa]
     5,50;...        % compression (ultimate - yield) stress [MPa]
-    0.005,0.02;...  % compression (ultimate - yield) strain [-]
-    0.01,0.1;...    % compression (deletion - ultimate) strain [-]
+    0.01,0.10;...   % compression (ultimate - yield) strain [-]
+    0.01,0.20;...   % compression (deletion - ultimate) strain [-]
     25,150;...      % tension yield stress [MPa]
-    0.01,0.1;...    % tension (deletion - ultimate) strain [-]
-    0.01,0.6;...    % friction coefficient
+    0.01,0.20;...   % tension (deletion - ultimate) strain [-]
+    0.01,1.0;...    % friction coefficient
     ];
 sigma=0.5;  % coordinate wise standard deviation (step size)
 normalPara = [...

@@ -2,7 +2,7 @@ clear all
 close all
 clc
 %%
-dispFCurve = readmatrix('dataOutput_74.csv');
+dispFCurve = readmatrix('dataOutput_1.csv');
 
 %% 
 filterSize = 19;

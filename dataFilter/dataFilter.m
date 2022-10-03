@@ -32,8 +32,8 @@ dataPointNumForce = interp1(dispFCurve(:,1),dispFFil,dataPointDisp);
 % saveas(fig2,sprintf('./figures/%s_2.png',fileName(1:end-4)));
 %% project numerical data to experimental data
 fun = @(x)(sum((dataPointExpForce(floor(x):end)-dataPointNumForce(1:dataNum-floor(x)+1)).^2))^0.5/numDispMax;
-x1 = 5;
-x2 = 50;
+x1 = 0;
+x2 = 20;
 options = optimset('TolX',0.5);
 [x,fval] = fminbnd(fun,x1,x2,options);
 %%
