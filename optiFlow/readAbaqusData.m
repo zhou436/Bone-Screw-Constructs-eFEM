@@ -1,5 +1,6 @@
 function [expNumDiff] = readAbaqusData(counteval)
 %%
+% counteval = 1;
 % clear all
 % close all
 % clc
