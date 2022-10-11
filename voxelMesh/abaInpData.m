@@ -2,63 +2,44 @@ function abaData = abaInpData(abaData)
 %% Abaqus parameters Bone
 abaData.Bone.MAT.matName = 'Bone';
 abaData.Bone.MAT.varDens = '1.89e-09';
-if ~isfield(abaData.Bone.MAT, 'vaEL')
-    abaData.Bone.MAT.vaEL = [2500, 0.3]; % Young's modulus and Poisson's ratio
-end
-if ~isfield(abaData.Bone.MAT, 'varCDPPlas')
-    abaData.Bone.MAT.varCDPPlas = [40.0, 0.1, 1.16, 0.6667, 0.0]; % CDP plasticity table
-end
-if ~isfield(abaData.Bone.MAT, 'comp')
-    abaData.Bone.MAT.comp = struct();
-end
-if ~isfield(abaData.Bone.MAT.comp, 'sigmaY')
-    abaData.Bone.MAT.comp.sigmaY = 120;         % compression yield stress [MPa]
-end
-if ~isfield(abaData.Bone.MAT.comp, 'sigmaUYD')
-    abaData.Bone.MAT.comp.sigmaUYD = 30;        % compression ultimate-yield stress [MPa]
-end
+abaData.Bone.MAT.vaEL = [2500, 0.3]; % Young's modulus and Poisson's ratio
+abaData.Bone.MAT.varCDPPlas = [40.0, 0.1, 1.16, 0.6667, 0.0]; % CDP plasticity table
+abaData.Bone.MAT.comp = struct();
+abaData.Bone.MAT.comp.sigmaY = 120;         % compression yield stress [MPa]
+abaData.Bone.MAT.comp.sigmaUYD = 30;        % compression ultimate-yield stress [MPa]
 abaData.Bone.MAT.comp.sigmaU = abaData.Bone.MAT.comp.sigmaY + abaData.Bone.MAT.comp.sigmaUYD;
-if ~isfield(abaData.Bone.MAT.comp, 'epsilonU')
-    abaData.Bone.MAT.comp.epsilonU = 0.10;      % compression ultimate strain [-]
-end
+abaData.Bone.MAT.comp.epsilonU = 0.10 + ...
+    abaData.Bone.MAT.comp.sigmaY/abaData.Bone.MAT.vaEL(1);      % compression ultimate strain [-]
 abaData.Bone.MAT.comp.sigmaF = abaData.Bone.MAT.comp.sigmaU * 0.05;   % compression failure(deletion) stress [MPa]
-if ~isfield(abaData.Bone.MAT.comp, 'epsilonF')
-    abaData.Bone.MAT.comp.epsilonF = 0.20;      % compression failure (deletion) strain [-]
-end
-if ~isfield(abaData.Bone.MAT, 'tens')
-    abaData.Bone.MAT.tens = struct();
-end
-if ~isfield(abaData.Bone.MAT.tens, 'sigmaY')
-    abaData.Bone.MAT.tens.sigmaY = 90;          % tension yield stress [MPa]
-end
+abaData.Bone.MAT.comp.epsilonF = 0.20 + abaData.Bone.MAT.comp.epsilonU;      % compression failure (deletion) strain [-]
+abaData.Bone.MAT.tens = struct();
+abaData.Bone.MAT.tens.sigmaY = 90;          % tension yield stress [MPa]
 abaData.Bone.MAT.tens.sigmaF = abaData.Bone.MAT.tens.sigmaY * 0.05;     % tension failure(deletion) stress [MPa]
-if ~isfield(abaData.Bone.MAT.tens, 'epsilonF')
-    abaData.Bone.MAT.tens.epsilonF = 0.10;      % tension failure (deletion) strain [-]
-end
+abaData.Bone.MAT.tens.epsilonF = 0.10 + ...
+    abaData.Bone.MAT.tens.sigmaY/abaData.Bone.MAT.vaEL(1);      % tension failure (deletion) strain [-]
 % create CDP tables [strain, stress, damage, elastic strain, inelastic strain, plastic strain]
 abaData.Bone.MAT = funCDPGen(abaData.Bone.MAT);
-
 % CDP compressive hardening [Yield Stress, Inelastic Strain]
 abaData.Bone.MAT.varCDPCHard = [...
     abaData.Bone.MAT.comp.CDPtable(abaData.Bone.MAT.comp.elaCNum:end,2),...
     abaData.Bone.MAT.comp.CDPtable(abaData.Bone.MAT.comp.elaCNum:end,5)...
     ];
 % CDP tension stiffening [Yield Stress, Cracking(Inelastic) Strain]
-abaData.Bone.MAT.varCDPTSti = [... 
+abaData.Bone.MAT.varCDPTSti = [...
     abaData.Bone.MAT.tens.CDPtable(abaData.Bone.MAT.tens.elaTNum:end,2),...
     abaData.Bone.MAT.tens.CDPtable(abaData.Bone.MAT.tens.elaTNum:end,5)...
     ];
 % CDP compression damage [Damage Parameter, Inelastic strain]
-abaData.Bone.MAT.varCDPCDam = [... 
+abaData.Bone.MAT.varCDPCDam = [...
     abaData.Bone.MAT.comp.CDPtable(abaData.Bone.MAT.comp.elaCNum:end,3),...
     abaData.Bone.MAT.comp.CDPtable(abaData.Bone.MAT.comp.elaCNum:end,5)...
     ];
 % CDP tension damage [Damage Parameter, Cracking(Inelastic) Strain]
-abaData.Bone.MAT.varCDPTDam = [... 
+abaData.Bone.MAT.varCDPTDam = [...
     abaData.Bone.MAT.tens.CDPtable(abaData.Bone.MAT.tens.elaTNum:end,3),...
     abaData.Bone.MAT.tens.CDPtable(abaData.Bone.MAT.tens.elaTNum:end,5)...
     ];
-% CDP failure strain and damage [Ultimate Inelastic Strain, Ultimate Cracking Strain, 
+% CDP failure strain and damage [Ultimate Inelastic Strain, Ultimate Cracking Strain,
 %                       Correspnding Damage Parameter, Correspnding Damage Parameter]
 abaData.Bone.MAT.varCDPFai = [...
     abaData.Bone.MAT.comp.CDPtable(end,5),...
