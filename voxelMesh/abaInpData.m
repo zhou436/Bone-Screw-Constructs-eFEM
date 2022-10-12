@@ -1,22 +1,24 @@
-function abaData = abaInpData(abaData)
+function abaData = abaInpData(abaData, inputFlag)
 %% Abaqus parameters Bone
 abaData.Bone.MAT.matName = 'Bone';
 abaData.Bone.MAT.varDens = '1.89e-09';
-abaData.Bone.MAT.vaEL = [2500, 0.3]; % Young's modulus and Poisson's ratio
-abaData.Bone.MAT.varCDPPlas = [40.0, 0.1, 1.16, 0.6667, 0.0]; % CDP plasticity table
-abaData.Bone.MAT.comp = struct();
-abaData.Bone.MAT.comp.sigmaY = 120;         % compression yield stress [MPa]
-abaData.Bone.MAT.comp.sigmaUYD = 30;        % compression ultimate-yield stress [MPa]
-abaData.Bone.MAT.comp.sigmaU = abaData.Bone.MAT.comp.sigmaY + abaData.Bone.MAT.comp.sigmaUYD;
-abaData.Bone.MAT.comp.epsilonU = 0.10 + ...
-    abaData.Bone.MAT.comp.sigmaY/abaData.Bone.MAT.vaEL(1);      % compression ultimate strain [-]
-abaData.Bone.MAT.comp.sigmaF = abaData.Bone.MAT.comp.sigmaU * 0.05;   % compression failure(deletion) stress [MPa]
-abaData.Bone.MAT.comp.epsilonF = 0.20 + abaData.Bone.MAT.comp.epsilonU;      % compression failure (deletion) strain [-]
-abaData.Bone.MAT.tens = struct();
-abaData.Bone.MAT.tens.sigmaY = 90;          % tension yield stress [MPa]
-abaData.Bone.MAT.tens.sigmaF = abaData.Bone.MAT.tens.sigmaY * 0.05;     % tension failure(deletion) stress [MPa]
-abaData.Bone.MAT.tens.epsilonF = 0.10 + ...
-    abaData.Bone.MAT.tens.sigmaY/abaData.Bone.MAT.vaEL(1);      % tension failure (deletion) strain [-]
+if inputFlag == 0
+    abaData.Bone.MAT.vaEL = [2500, 0.3]; % Young's modulus and Poisson's ratio
+    abaData.Bone.MAT.varCDPPlas = [40.0, 0.1, 1.16, 0.6667, 0.0]; % CDP plasticity table
+    abaData.Bone.MAT.comp = struct();
+    abaData.Bone.MAT.comp.sigmaY = 120;         % compression yield stress [MPa]
+    abaData.Bone.MAT.comp.sigmaUYD = 30;        % compression ultimate-yield stress [MPa]
+    abaData.Bone.MAT.comp.sigmaU = abaData.Bone.MAT.comp.sigmaY + abaData.Bone.MAT.comp.sigmaUYD;
+    abaData.Bone.MAT.comp.epsilonU = 0.10 + ...
+        abaData.Bone.MAT.comp.sigmaY/abaData.Bone.MAT.vaEL(1);      % compression ultimate strain [-]
+    abaData.Bone.MAT.comp.sigmaF = abaData.Bone.MAT.comp.sigmaU * 0.05;   % compression failure(deletion) stress [MPa]
+    abaData.Bone.MAT.comp.epsilonF = 0.20 + abaData.Bone.MAT.comp.epsilonU;      % compression failure (deletion) strain [-]
+    abaData.Bone.MAT.tens = struct();
+    abaData.Bone.MAT.tens.sigmaY = 90;          % tension yield stress [MPa]
+    abaData.Bone.MAT.tens.sigmaF = abaData.Bone.MAT.tens.sigmaY * 0.05;     % tension failure(deletion) stress [MPa]
+    abaData.Bone.MAT.tens.epsilonF = 0.10 + ...
+        abaData.Bone.MAT.tens.sigmaY/abaData.Bone.MAT.vaEL(1);      % tension failure (deletion) strain [-]
+end
 % create CDP tables [strain, stress, damage, elastic strain, inelastic strain, plastic strain]
 abaData.Bone.MAT = funCDPGen(abaData.Bone.MAT);
 % CDP compressive hardening [Yield Stress, Inelastic Strain]

@@ -10,7 +10,7 @@ iniVal=[...
     20;...          % compression (ultimate - yield) stress [MPa]
     0.02;...        % compression (ultimate - yield) strain [-]
     0.05;...        % compression (deletion - ultimate) strain [-]
-    100;...         % tension yield stress [MPa]
+    100;...         % tension yield (ultimate) stress [MPa]
     0.01;...        % tension (deletion - ultimate) strain [-]
     0.3;...         % friction coefficient
     ]; 
@@ -21,7 +21,7 @@ BC = [...
     5,50;...        % compression (ultimate - yield) stress [MPa]
     0.01,0.10;...   % compression (ultimate - yield) strain [-]
     0.01,0.20;...   % compression (deletion - ultimate) strain [-]
-    25,150;...      % tension yield stress [MPa]
+    50,150;...      % tension yield (ultimate) stress [MPa]
     0.01,0.20;...   % tension (deletion - ultimate) strain [-]
     0.01,1.0;...    % friction coefficient
     ];

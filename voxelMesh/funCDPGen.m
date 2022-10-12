@@ -89,7 +89,7 @@ CDPCPS = MAT.comp.CDPtable(:,6);
 CDPCPSCP = CDPCPS;
 sort(CDPCPSCP);
 if isequal(CDPCPS, CDPCPSCP)
-    disp('Good CDP');
+    disp('Good compression CDP');
 else
     disp('Error!');
 end
@@ -109,7 +109,7 @@ CDPCPS = MAT.tens.CDPtable(:,6);
 CDPCPSCP = CDPCPS;
 sort(CDPCPSCP);
 if isequal(CDPCPS, CDPCPSCP)
-    disp('Good CDP');
+    disp('Good tensile CDP');
 else
     disp('Error!');
 end
@@ -123,5 +123,7 @@ legend('Compression', 'Tension');
 xlabel('Strain [-]');
 ylabel('Stress [MPa]');
 grid on
-saveas(stressStrainCurve, 'stressStrainCurve.png')
+hold on
+saveas(stressStrainCurve, 'stressStrainCurve.png');
+% close stressStrainCurve;
 end
