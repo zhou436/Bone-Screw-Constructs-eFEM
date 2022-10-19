@@ -6,7 +6,7 @@ clc
 % clf
 fileName = 'matCDP';
 abaData = [];
-abaData = abaInpData(abaData); % basic abaqus settings
+abaData = abaInpData(abaData, 0); % basic abaqus settings
 % fid=fopen(sprintf('%s.inp',fileName),'wW');
 
 %%

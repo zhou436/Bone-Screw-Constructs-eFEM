@@ -2,7 +2,7 @@ function abaData = abaInpData(abaData, inputFlag)
 %% Abaqus parameters Bone
 abaData.Bone.MAT.matName = 'Bone';
 abaData.Bone.MAT.varDens = '1.89e-09';
-if inputFlag == 0
+if inputFlag == 0 % if there is no preliminary inputs
     abaData.Bone.MAT.vaEL = [2500, 0.3]; % Young's modulus and Poisson's ratio
     abaData.Bone.MAT.varCDPPlas = [40.0, 0.1, 1.16, 0.6667, 0.0]; % CDP plasticity table
     abaData.Bone.MAT.comp = struct();
