@@ -23,7 +23,7 @@ import xyPlot
 import displayGroupOdbToolset as dgo
 import connectorBehavior
 odb = session.openOdb(
-        name='Job-1.odb')
+        name='printInpTemp.odb')
 xy_result = session.XYDataFromHistory(
     name='RF3 PI: rootAssembly N: 1 NSET SCREWTOPREF-1', odb=odb, 
     outputVariableName='Reaction force: RF3 PI: rootAssembly Node 1 in NSET SCREWTOPREF', 

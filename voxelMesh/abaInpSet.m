@@ -38,12 +38,19 @@ nodeTop = Screw.Nodes(nodeTop,1);
 %     ];
 % fprintf(fid, ScrewRefSet);
 
-fprintf(fid, '*Nset, nset=ScrewTopRef, instance=Screw-1\n');
+fprintf(fid, '*Nset, nset=ScrewTop, instance=Screw-1\n');
 nodeNum = numel(nodeTop);
 nodeNumF = floor(nodeNum/16)*16;
 nodeInt = reshape(nodeTop(1:nodeNumF),16,[])';
 printEle(fid, nodeInt, 16);
 printEle(fid, nodeTop(end-nodeNum+nodeNumF+1:end), nodeNum-nodeNumF);
+
+% *Node
+%  1, -1.0, 1.0, 7.0
+% *Nset, nset=ScrewTopRef
+%  1,
+% ** Constraint: Constraint-1
+% *Rigid Body, ref node=ScrewTopRef, tie nset=ScrewTop
 
 % Print Ending of element sets
 fprintf(fid, '** \n');

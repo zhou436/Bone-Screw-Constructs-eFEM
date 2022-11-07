@@ -1,4 +1,4 @@
-function abaInpMatCDP(fid, MAT)
+function abaInpMatCDP(MAT, fileName)
 % Print Abaqus .inp material part
 % input fid:        File ID
 % input MAT.matName:    Material name, a string
@@ -13,9 +13,7 @@ function abaInpMatCDP(fid, MAT)
 %                       [Ultimate Inelastic Strain, Ultimate Cracking Strain, 
 %                       Correspnding Damage Parameter, Correspnding Damage Parameter]
 
-% fileName = 'printInpTemp';
-% fid=fopen(sprintf('%s.inp',fileName),'wW');
-% matName = 'Bone';
+fid=fopen(sprintf('%s.inp',fileName),'w+');
 % Print Heading of material section
 fprintf(fid, ...
     ['** ----------------------------------------------------------------\n'...
@@ -59,5 +57,5 @@ fprintf(fid, '%f, %f, %f, %f\n', MAT.varCDPFai);
 % Print Ending of material section
 fprintf(fid, '** \n');
 fprintf(fid, '** ----------------------------------------------------------------\n');
-% fclose(fid);
+fclose(fid);
 end

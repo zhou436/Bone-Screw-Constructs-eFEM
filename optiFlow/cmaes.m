@@ -48,7 +48,6 @@ while counteval < stopeval
                 arx(ii,k) = BC(ii,2)/normalPara(ii);
             end
         end
-
         arfitness(k) = feval(ObjFun, arx(:,k).*normalPara, counteval); % objective function call
         writematrix([arx(:,k)', arfitness(k)], './dataOutput/dataMatrixOutput.xlsx', 'WriteMode', 'append');
         counteval = counteval+1;
