@@ -7,8 +7,9 @@
 
 # Abaqus
 *.bdf
-#*.inp
+*.inp
 *.odb
+*.bak
 
 *.rpy.*
 *.rpy
