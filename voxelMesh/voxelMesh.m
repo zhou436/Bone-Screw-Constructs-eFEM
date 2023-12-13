@@ -13,6 +13,7 @@ eleCell = getElement(im, intensity, dimXNum, dimYNum, dimZNum);
 
 % get unique index of nodes
 nodIndCell = cellfun(@(A) unique(A(:,3:10)), eleCell, 'UniformOutput', false);
+nodIndCell = cellfun(@(A) reshape(A,[],1), nodIndCell, 'UniformOutput', false);
 uniNode = unique(cell2mat(nodIndCell));    % column vector
 
 % get list of node coordinates, corresponding to uniNode

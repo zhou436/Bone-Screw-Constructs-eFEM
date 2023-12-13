@@ -1,4 +1,4 @@
-function abaInpPart(fid, Part)
+function abaInpPart(Part)
 % Print Abaqus .inp material part
 % input fid:            File ID
 % input Parts.eleType:  Element types, {strings}, size number of parts
@@ -6,7 +6,7 @@ function abaInpPart(fid, Part)
 % input Parts.partNum:  Number of parts
 
 % fileName = 'printInpTemp';
-% fid=fopen(sprintf('%s.inp',fileName),'wW');
+fid=fopen(sprintf('%s.inp',Part.MAT.matName),'wW');
 
 % format of number
 nodeFormat = '%.8f';
@@ -36,7 +36,7 @@ fprintf(fid, [...
     ',\n'...
     '*End Instance\n'...
     ], Part.partName, Part.setNum, Part.setNum, Part.MAT.matName);
-
+fclose(fid);
 % Print Ending of material section
 end
 

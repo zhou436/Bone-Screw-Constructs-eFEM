@@ -1,7 +1,7 @@
 function abaInpInteraction(fricCoeef, fileName)
-% Print Abaqus .inp step part
+% Print Abaqus .inp interaction part
 % input fid:        File ID
-% input mSFactor:   Mass scaling factor (min step time)
+% input fricCoeef:  Friction coefficient between different parts
 
 fid=fopen(sprintf('%s.inp',fileName),'w+');
 intKWs = [...

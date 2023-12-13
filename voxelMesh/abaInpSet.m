@@ -5,7 +5,7 @@ function nodeS = abaInpSet(fid, Bone, Screw)
 coorTor = 0.1;
 fprintf(fid, '** ----------------------------------------------------------------\n');
 fprintf(fid, '** \n');
-% Print BC sets (side surfaces of the bone sample)
+%% Print BC sets (side surfaces of the bone sample)
 topCoorX = max(Bone.Nodes(:,2));
 botCoorX = min(Bone.Nodes(:,2));
 topCoorY = max(Bone.Nodes(:,3));
@@ -17,6 +17,11 @@ botCoorY = min(Bone.Nodes(:,3));
     abs(Bone.Nodes(:,3)-botCoorY) <= coorTor...
     );
 nodeSide = Bone.Nodes(nodeSide,1);
+%% Find top surface in a ring region, 5 first
+
+
+
+%%
 fprintf(fid, '*Nset, nset=BoneSide, instance=Bone-1\n');
 nodeNum = numel(nodeSide);
 nodeNumF = floor(nodeNum/16)*16;

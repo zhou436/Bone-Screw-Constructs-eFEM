@@ -1,5 +1,5 @@
 function abaInpAmp(fid)
-% Print Abaqus .inp material part
+% Print Abaqus .inp amplitude part
 % input fid:        File ID
 
 % fileName = 'printInpTemp';
