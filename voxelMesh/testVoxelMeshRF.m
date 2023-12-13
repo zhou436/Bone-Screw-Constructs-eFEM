@@ -7,7 +7,7 @@ tic
 % folder_name = 'RF_20R_VOIss';
 % pixelSize = 11.953001/1000; % unit: mm, same as Abaqus unit
 pixelSize = 20/1000; % unit: mm, same as Abaqus unit
-scaleFac = 1/4; % scale factor of the model, 0.1 means 1/10 voxels in one dimension
+scaleFac = 1/8; % scale factor of the model, 0.1 means 1/10 voxels in one dimension
 VOIFrac = 0.70;
 % im = importImSeqs(folder_name);
 load("./data/072_09_b__imgMat.mat");
@@ -137,28 +137,28 @@ disp('VOI:\n');
 disp(size(imVOI)*pixelSize);
 toc
 %% plot mesh
-screwBoneMesh = figure(5);
-plotMesh(abaData.Bone.Elements(:,2:9), nodeCoor, 1, '-'); % 'none' for no edges
-% volshow(imSca, 'ScaleFactors', [pixelSizeSca,pixelSizeSca,pixelSizeSca]);
-hold on;
-scatter3(nodeCoor(nodeOutCell{1},2), nodeCoor(nodeOutCell{1},3), nodeCoor(nodeOutCell{1},4));
-hold on
-scatter3(nodeCoor(nodeOutCell{2},2), nodeCoor(nodeOutCell{2},3), nodeCoor(nodeOutCell{2},4));
-hold on
-% Load screw data and plot
-
-plotMesh(abaData.Screw.Elements(:,2:5), abaData.Screw.Nodes, 0.5, 'none');
-
-% plot labels
-xlabel('x');
-ylabel('y');
-zlabel('z');
-
-xlim([0, inf]);
-% ylim([0, inf]);
-view(240,30);
-
-saveas(screwBoneMesh, 'screwBoneMesh.png');
+% screwBoneMesh = figure(5);
+% plotMesh(abaData.Bone.Elements(:,2:9), nodeCoor, 1, '-'); % 'none' for no edges
+% % volshow(imSca, 'ScaleFactors', [pixelSizeSca,pixelSizeSca,pixelSizeSca]);
+% hold on;
+% scatter3(nodeCoor(nodeOutCell{1},2), nodeCoor(nodeOutCell{1},3), nodeCoor(nodeOutCell{1},4));
+% hold on
+% scatter3(nodeCoor(nodeOutCell{2},2), nodeCoor(nodeOutCell{2},3), nodeCoor(nodeOutCell{2},4));
+% hold on
+% % Load screw data and plot
+% 
+% plotMesh(abaData.Screw.Elements(:,2:5), abaData.Screw.Nodes, 0.5, 'none');
+% 
+% % plot labels
+% xlabel('x');
+% ylabel('y');
+% zlabel('z');
+% 
+% xlim([0, inf]);
+% % ylim([0, inf]);
+% view(240,30);
+% 
+% saveas(screwBoneMesh, 'screwBoneMesh.png');
 
 
 
