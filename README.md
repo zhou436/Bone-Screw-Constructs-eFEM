@@ -1,6 +1,7 @@
-# pullOutSimulation
+# Bone-Screw Constructs - eFEM
 
-Welcome to the pullOutSimulation repository! This code is designed for voxel-to-element mesh generation, specifically tailored for evaluating the stability of screw-bone constructs. We have provided several example datasets to get you started, but for more extensive datasets, please visit:
+## Introduction
+Welcome to the "Bone-Screw Constructs - eFEM" repository! This code is designed for voxel-to-element mesh generation, specifically tailored for evaluating the stability of screw-bone constructs. We have provided several example datasets to get you started, but for more extensive datasets, please visit:
 
 Zhou, Y., Steiner, J. A., Affentranger, R., Persson, C., Ferguson, S. J., van Lenthe, H., & Helgason, B. (2023). Trabecular bone – screw interaction. Micro-CT models and experimental push-in results. (v1.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.8405457
 
@@ -11,6 +12,9 @@ Zhou, Y., Helgason, B., Ferguson, S. J., Persson, C. (2023). Validated, high-res
 To use this code, you'll need the following software:
 * MATLAB
 * ABAQUS (works on 2020/2021, other versions were not tested)
+
+## Example code
+Start with testVoxelMeshRF. It will generate a bone-screw construct with the screw digitally inserted into the trabecular bone structure by deleting the overlapped bone element. An ABAQUS keywords file will be generated for eFEM simulation with given boundary conditions, mass scaling factors, and other essential settings.
 
 ## Example model
 <p align="center">
