@@ -13,11 +13,11 @@ Zhou, Y., Helgason, B., Ferguson, S. J., Persson, C. (2023). Validated, high-res
 
 ## Example model
 <p align="center">
-    <img src="Figs/screwBoneMesh.png" width="480"> <br />
+    <img src="Figs/screwBoneMesh.png" width="240"> <br />
     <em> The generated bone-screw construct and boundary conditions. </em>
-    <img src="Figs/screwBoneMeshDel.png" width="480"> <br />
+    <img src="Figs/screwBoneMeshDel.png" width="240"> <br />
     <em> The illustration of element digital deletion. </em>
-    <img src="Figs/stressStrainCurve.png" width="480"> <br />
+    <img src="Figs/stressStrainCurve.png" width="240"> <br />
     <em> The illustration of material model CDP. </em>
 </p>
 
